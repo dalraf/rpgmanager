@@ -1,4 +1,33 @@
-from browser import document, bind, html
+from browser import document, bind, html, alert
+from browser.local_storage import storage
+import json
+
+dados = json.loads(storage.get('dados')) or {}
+
+
+class Personagem:
+    def __init__(self, dados, storage):
+        self.dados = dados
+        self.storage = storage
+        self.nome = dados.get('nome') or ''
+        self.nome = dados.get('nivel') or 8
+        self.forca = dados.get('forca') or 8
+        self.inteligencia = dados.get('inteligencia') or 8
+        self.carisma = dados.get('carisma') or 8
+        self.constituicao = dados.get('constituicao') or 8
+        self.destreza = dados.get('destreza') or 8
+        self.destreza = dados.get('armas') or []
+
+    def salvar(self):
+        self.storage['dados'] = json.dumps(dados)
+        alert('Personagem salvo com sucesso!')
+
+    def deletar(self):
+        del self.storage['dados']
+        alert('Personagem apagado com sucesso!')
+
+
+personagem = Personagem(dados, storage)
 
 
 def soma_pontos():
@@ -65,6 +94,16 @@ def addarma(evs):
     linha <= coluna1
     linha <= coluna2
     document['listarma'] <= linha
+
+
+@bind(document['deletar'], "click")
+def deletar(evs):
+    personagem.deletar()
+
+
+@bind(document['salvar'], "click")
+def salvar(evs):
+    personagem.salvar()
 
 
 soma_pontos()
