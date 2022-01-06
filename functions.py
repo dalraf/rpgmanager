@@ -52,6 +52,10 @@ def changedanoarma(evs):
     document['armadanoout'].textContent = document['armadano'].value
 
 
+@bind(document['nivel'], "change")
+def changedanoarma(evs):
+    document['nivelout'].textContent = document['nivel'].value
+
 @bind(document['addarma'], "click")
 def addarma(evs):
     coluna1 = html.TD(document['armanome'].value)
