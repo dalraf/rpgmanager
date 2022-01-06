@@ -17,12 +17,44 @@
         <div class="container">
             <h1 class="title">Gerenciador de Personagem</h1>
                 <div class="columns">
-                    <div class="column is-three-quarters">
+                    <div class="column is-full">
                         <div class="rows">
                             <div class="row">
                                 <div class="columns">
                                     <div class="column is-one-quarter">
-                                        <span>Peronagem:</span>
+                                        <span>Rolar dados:</span>
+                                    </div>
+                                    <div class="column">
+                                        <div class="select">
+                                            <select id='caracter'>
+                                                <option>Inteligência
+                                                <option>Força</option>
+                                                <option>Destreza</option>
+                                                <option>Carisma</option>
+                                                <option>Constituição</option>
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="column">
+                                        <div class="select">
+                                            <select id='arma'>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="column">
+                                        <button id="rolar" class="button is-info">rolar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+                        <br>
+                        <br>
+                        <div class="rows">
+                            <div class="row">
+                                <div class="columns">
+                                    <div class="column is-one-quarter">
+                                        <span>Personagem:</span>
                                     </div>
                                     <div class="column">
                                         <button id="salvar" class="button is-info">Salvar</button>
@@ -90,7 +122,7 @@
                                     </div>
                                     <div class="column">
                                         <input id="inteligencia" class="slider has-output is-fullwidth" step="1"
-                                            min="0" max="15" value="8" type="range">
+                                            min="6" max="15" value="8" type="range">
                                         <output id="inteligenciaout">8</output>
                                     </div>
                                 </div>
@@ -101,7 +133,7 @@
                                         <span>Força:</span>
                                     </div>
                                     <div class="column">
-                                        <input id="forca" class="slider has-output is-fullwidth" step="1" min="0"
+                                        <input id="forca" class="slider has-output is-fullwidth" step="1" min="6"
                                             max="15" value="8" type="range">
                                         <output id="forcaout">8</output>
                                     </div>
@@ -114,7 +146,7 @@
                                     </div>
                                     <div class="column">
                                         <input id="destreza" class="slider has-output is-fullwidth" step="1"
-                                            min="0" max="15" value="8" type="range">
+                                            min="6" max="15" value="8" type="range">
                                         <output id="destrezaout">8</output>
                                     </div>
                                 </div>
@@ -126,7 +158,7 @@
                                     </div>
                                     <div class="column">
                                         <input id="carisma" class="slider has-output is-fullwidth" step="1"
-                                            min="0" max="15" value="8" type="range">
+                                            min="6" max="15" value="8" type="range">
                                         <output id="carismaout">8</output>
                                     </div>
                                 </div>
@@ -138,7 +170,7 @@
                                     </div>
                                     <div class="column">
                                         <input id="constituicao" class="slider has-output is-fullwidth" step="1"
-                                            min="0" max="15" value="8" type="range">
+                                            min="6" max="15" value="8" type="range">
                                         <output id="constituicaoout">8</output>
                                     </div>
                                 </div>

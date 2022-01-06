@@ -1,5 +1,6 @@
 from browser import document, bind, html, alert
 from browser.local_storage import storage
+import random
 import json
 
 
@@ -69,6 +70,7 @@ def update_formulario_personagem():
     document['constituicaoout'].textContent = document['constituicao'].value
     document['destreza'].value = personagem.destreza
     document['destrezaout'].textContent = document['destreza'].value
+
     for nome, dano in personagem.armas.items():
         coluna1 = html.TD(nome)
         coluna2 = html.TD(dano)
@@ -193,6 +195,28 @@ def salvar(evs):
 def removerarma(evs):
     del document[evs.target.value]
     del personagem.armas[evs.target.value]
+
+
+@bind(document['rolar'], "click")
+def rolar(env):
+    caracter_name = document['caracter'].value
+    if caracter_name == 'Inteligência':
+        caracter = personagem.inteligencia
+    elif caracter_name == 'Força':
+        caracter = personagem.forca
+    elif caracter_name == 'Destreza':
+        caracter = personagem.destreza
+    elif caracter_name == 'Carisma':
+        caracter = personagem.carisma
+    elif caracter_name == 'Constituição':
+        caracter = personagem.constituicao
+
+    dado = random.randint(1, 20)
+    resultado = dado - caracter
+    if resultado <= 0:
+        alert('Você ganhou!')
+    if resultado > 0:
+        alert('Você perdeu!')
 
 
 update_formulario_personagem()
