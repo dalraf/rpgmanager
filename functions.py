@@ -11,6 +11,7 @@ class Personagem:
         else:
             self.dados = {}
         self.nome = self.dados.get('nome') or ''
+        self.raca = self.dados.get('raca') or ''
         self.nivel = self.dados.get('nivel') or 1
         self.forca = self.dados.get('forca') or 8
         self.inteligencia = self.dados.get('inteligencia') or 8
@@ -21,6 +22,7 @@ class Personagem:
 
     def salvar(self):
         self.dados['nome'] = self.nome
+        self.dados['raca'] = self.raca
         self.dados['nivel'] = self.nivel
         self.dados['forca'] = self.forca
         self.dados['inteligencia'] = self.inteligencia
@@ -28,13 +30,13 @@ class Personagem:
         self.dados['constituicao'] = self.constituicao
         self.dados['destreza'] = self.destreza
         self.dados['armas'] = self.armas
-        self.storage['dados'] = json.dumps(self.dados)
-        alert('Personagem salvo com sucesso!')
+        self.storage['dados'] = json.dumps(self.dados, ensure_ascii=False)
 
     def deletar(self):
         del self.storage['dados']
         self.dados = {}
         self.nome = ''
+        self.raca = ''
         self.nivel = 1
         self.forca = 8
         self.inteligencia = 8
@@ -42,7 +44,6 @@ class Personagem:
         self.constituicao = 8
         self.destreza = 8
         self.armas = {}
-        alert('Personagem apagado com sucesso!')
 
     def cacl_pontos_restantes(self):
         self.pontos_restantes = 50 - \
@@ -55,6 +56,7 @@ personagem = Personagem(storage)
 
 def update_formulario_personagem():
     document['nome'].value = personagem.nome
+    document['racas'].value = personagem.raca
     document['nivel'].value = personagem.nivel
     document['nivelout'].textContent = document['nivel'].value
     document['forca'].value = personagem.forca
@@ -107,9 +109,9 @@ def changenome(evs):
     personagem.nome = document['nome'].value
 
 
-@bind(document['raca'], "change")
+@bind(document['racas'], "change")
 def changeraca(evs):
-    personagem.raca = document['raca'].value
+    personagem.raca = document['racas'].value
 
 
 @bind(document['inteligencia'], "change")
@@ -172,12 +174,20 @@ def addarma(evs):
 @ bind(document['deletar'], "click")
 def deletar(evs):
     personagem.deletar()
+    alert('Personagem apagado com sucesso!')
     update_formulario_personagem()
 
 
 @bind(document['salvar'], "click")
 def salvar(evs):
-    personagem.salvar()
+    if personagem.pontos_restantes > 0:
+        alert('Vc ainda possui pontos restantes!')
+    if personagem.pontos_restantes < 0:
+        alert('Vc ultrapassou o limite de 50 pontos!')
+    if personagem.pontos_restantes == 0:
+        personagem.salvar()
+        alert('Personagem salvo com sucesso!')
+        update_formulario_personagem()
 
 
 def removerarma(evs):
