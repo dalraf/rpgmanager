@@ -53,7 +53,7 @@ def changedanoarma(evs):
 
 
 @bind(document['nivel'], "change")
-def changedanoarma(evs):
+def changenivel(evs):
     document['nivelout'].textContent = document['nivel'].value
 
 @bind(document['addarma'], "click")
