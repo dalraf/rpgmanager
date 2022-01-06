@@ -34,6 +34,25 @@ class Personagem:
 personagem = Personagem(storage)
 
 
+def update_formulario_personagem():
+    document['nome'].value = personagem.nome
+    document['nivel'].value = personagem.nivel
+    document['forca'].value = personagem.forca
+    document['inteligencia'].value = personagem.inteligencia
+    document['carisma'].value = personagem.carisma
+    document['constituicao'].value = personagem.constituicao
+    document['destreza'].value = personagem.destreza
+    for arma in personagem.armas:
+        coluna1 = html.TD(arma[0])
+        coluna2 = html.TD(arma[1])
+        coluna3 = html.TD(html.BUTTON('Remover', Class='button is-info'))
+        linha = html.TR()
+        linha <= coluna1
+        linha <= coluna2
+        linha <= coluna3
+        document['listarma'] <= linha
+
+
 def verifica_soma_pontos():
 
     personagem.cacl_pontos_restantes()
@@ -53,40 +72,51 @@ def verifica_soma_pontos():
 @bind(document['nivel'], "change")
 def changenivel(evs):
     document['nivelout'].textContent = document['nivel'].value
+    personagem.nivel = int(document['nivel'].value)
 
 
-@bind(document['sliderinteligencia'], "change")
+@bind(document['nome'], "change")
+def changenome(evs):
+    personagem.nome = document['nome'].value
+
+
+@bind(document['raca'], "change")
+def changeraca(evs):
+    personagem.raca = document['raca'].value
+
+
+@bind(document['inteligencia'], "change")
 def slidechangeinteligencia(evs):
-    document['outputinteligencia'].textContent = document['sliderinteligencia'].value
-    personagem.inteligencia = document['sliderinteligencia'].value
+    document['outputinteligencia'].textContent = document['inteligencia'].value
+    personagem.inteligencia = int(document['inteligencia'].value)
     verifica_soma_pontos()
 
 
-@bind(document['sliderforca'], "change")
+@bind(document['forca'], "change")
 def slidechangeforca(evs):
-    document['outputforca'].textContent = document['sliderforca'].value
-    personagem.forca = document['sliderforca'].value
+    document['outputforca'].textContent = document['forca'].value
+    personagem.forca = int(document['forca'].value)
     verifica_soma_pontos()
 
 
-@bind(document['sliderdestreza'], "change")
+@bind(document['destreza'], "change")
 def slidechangedestreza(evs):
-    document['outputdestreza'].textContent = document['sliderdestreza'].value
-    personagem.destreza = document['sliderdestreza'].value
+    document['outputdestreza'].textContent = document['destreza'].value
+    personagem.destreza = int(document['destreza'].value)
     verifica_soma_pontos()
 
 
-@bind(document['slidercarisma'], "change")
+@bind(document['carisma'], "change")
 def slidechangecarisma(evs):
-    document['outputcarisma'].textContent = document['slidercarisma'].value
-    personagem.carisma = document['slidercarisma'].value
+    document['outputcarisma'].textContent = document['carisma'].value
+    personagem.carisma = int(document['carisma'].value)
     verifica_soma_pontos()
 
 
-@bind(document['sliderconstituicao'], "change")
+@bind(document['constituicao'], "change")
 def slidechangeconstiruicao(evs):
-    document['outputconstituicao'].textContent = document['sliderconstituicao'].value
-    personagem.constituicao = document['sliderconstituicao'].value
+    document['outputconstituicao'].textContent = document['constituicao'].value
+    personagem.constituicao = int(document['constituicao'].value)
     verifica_soma_pontos()
 
 
@@ -97,7 +127,8 @@ def changedanoarma(evs):
 
 @bind(document['addarma'], "click")
 def addarma(evs):
-    personagem.armas.append([document['armanome'].value, document['armadano'].value])
+    personagem.armas.append(
+        [document['armanome'].value, document['armadano'].value])
     coluna1 = html.TD(document['armanome'].value)
     coluna2 = html.TD(document['armadano'].value)
     coluna3 = html.TD(html.BUTTON('Remover', Class='button is-info'))
@@ -117,5 +148,7 @@ def deletar(evs):
 def salvar(evs):
     personagem.salvar()
 
+
+update_formulario_personagem()
 
 verifica_soma_pontos()
