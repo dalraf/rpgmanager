@@ -16,213 +16,214 @@
     <section class="section">
         <div class="container">
             <h1 class="title">Gerenciador de Personagem</h1>
-                <div class="columns">
-                    <div class="column is-full">
-                        <div class="rows">
-                            <div class="row">
-                                <div class="columns">
-                                    <div class="column is-one-quarter">
-                                        <span>Rolar dados:</span>
+            <div class="columns">
+                <div class="column is-full">
+                    <div class="rows">
+                        <div class="row">
+                            <div class="columns">
+                                <div class="column is-one-quarter">
+                                    <span>Rolar dados:</span>
+                                </div>
+                                <div class="column">
+                                    <div class="select">
+                                        <select id='caracter'>
+                                            <option>Inteligência
+                                            <option>Força</option>
+                                            <option>Destreza</option>
+                                            <option>Carisma</option>
+                                            <option>Constituição</option>
+                                            </option>
+                                        </select>
                                     </div>
-                                    <div class="column">
-                                        <div class="select">
-                                            <select id='caracter'>
-                                                <option>Inteligência
-                                                <option>Força</option>
-                                                <option>Destreza</option>
-                                                <option>Carisma</option>
-                                                <option>Constituição</option>
-                                                </option>
-                                            </select>
-                                        </div>
+                                </div>
+                                <div class="column">
+                                    <div class="select">
+                                        <select id='armarolar'>
+                                            <option></option>
+                                        </select>
                                     </div>
-                                    <div class="column">
-                                        <div class="select">
-                                            <select id='arma'>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="column">
-                                        <button id="rolar" class="button is-info">rolar</button>
+                                </div>
+                                <div class="column">
+                                    <button id="rolar" class="button is-info">rolar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+                    <div class="rows">
+                        <div class="row">
+                            <div class="columns">
+                                <div class="column is-one-quarter">
+                                    <span>Personagem:</span>
+                                </div>
+                                <div class="column">
+                                    <button id="salvar" class="button is-info">Salvar</button>
+                                </div>
+                                <div class="column">
+                                    <button id="deletar" class="button is-info">Deletar</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="columns">
+                                <div class="column is-one-quarter">
+                                    <span>Nível:</span>
+                                </div>
+                                <div class="column">
+                                    <input id="nivel" class="slider has-output is-fullwidth" step="1" min="1" max="15"
+                                        value="1" type="range">
+                                    <output id="nivelout">1</output>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="columns">
+                                <div class="column is-one-quarter">
+                                    <span>Nome:</span>
+                                </div>
+                                <div class="column">
+                                    <input type="text" name="nome" id="nome" class="input is-small"
+                                        placeholder="Nome do personagem">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="columns">
+                                <div class="column is-one-quarter">
+                                    <span>Raça:</span>
+                                </div>
+                                <div class="column">
+                                    <div class="select">
+                                        <select id='racas'>
+                                            <option>Humano</option>
+                                            <option>Elfo</option>
+                                            <option>Anão</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
-                        </div> 
+                        </div>
                         <br>
                         <br>
-                        <div class="rows">
-                            <div class="row">
-                                <div class="columns">
-                                    <div class="column is-one-quarter">
-                                        <span>Personagem:</span>
-                                    </div>
-                                    <div class="column">
-                                        <button id="salvar" class="button is-info">Salvar</button>
-                                    </div>
-                                    <div class="column">
-                                        <button id="deletar" class="button is-info">Deletar</button>
-                                    </div>
+                        <div class="row">
+                            <div class="columns">
+                                <div class="column is-one-quarter">
+                                    <span>Pontos restantes:</span>
+                                </div>
+                                <div class="column">
+                                    <span id='somapontos'></span>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="columns">
-                                    <div class="column is-one-quarter">
-                                        <span>Nível:</span>
-                                    </div>
-                                    <div class="column">
-                                        <input id="nivel" class="slider has-output is-fullwidth" step="1" min="1"
-                                            max="15" value="1" type="range">
-                                        <output id="nivelout">1</output>
-                                    </div>
+                        </div>
+                        <div class="row">
+                            <div class="columns">
+                                <div class="column is-one-quarter">
+                                    <span>Inteligência:</span>
+                                </div>
+                                <div class="column">
+                                    <input id="inteligencia" class="slider has-output is-fullwidth" step="1" min="6"
+                                        max="15" value="8" type="range">
+                                    <output id="inteligenciaout">8</output>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="columns">
-                                    <div class="column is-one-quarter">
-                                        <span>Nome:</span>
-                                    </div>
-                                    <div class="column">
-                                        <input type="text" name="nome" id="nome" class="input is-small"
-                                            placeholder="Nome do personagem">
-                                    </div>
+                        </div>
+                        <div class="row">
+                            <div class="columns">
+                                <div class="column is-one-quarter">
+                                    <span>Força:</span>
+                                </div>
+                                <div class="column">
+                                    <input id="forca" class="slider has-output is-fullwidth" step="1" min="6" max="15"
+                                        value="8" type="range">
+                                    <output id="forcaout">8</output>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="columns">
-                                    <div class="column is-one-quarter">
-                                        <span>Raça:</span>
-                                    </div>
-                                    <div class="column">
-                                        <div class="select">
-                                            <select id='racas'>
-                                                <option>Humano</option>
-                                                <option>Elfo</option>
-                                                <option>Anão</option>
-                                            </select>
+                        </div>
+                        <div class="row">
+                            <div class="columns">
+                                <div class="column is-one-quarter">
+                                    <span>Destreza:</span>
+                                </div>
+                                <div class="column">
+                                    <input id="destreza" class="slider has-output is-fullwidth" step="1" min="6"
+                                        max="15" value="8" type="range">
+                                    <output id="destrezaout">8</output>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="columns">
+                                <div class="column is-one-quarter">
+                                    <span>Carisma:</span>
+                                </div>
+                                <div class="column">
+                                    <input id="carisma" class="slider has-output is-fullwidth" step="1" min="6" max="15"
+                                        value="8" type="range">
+                                    <output id="carismaout">8</output>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="columns">
+                                <div class="column is-one-quarter">
+                                    <span>Constituição:</span>
+                                </div>
+                                <div class="column">
+                                    <input id="constituicao" class="slider has-output is-fullwidth" step="1" min="6"
+                                        max="15" value="8" type="range">
+                                    <output id="constituicaoout">8</output>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <br>
+                        <div class="row">
+                            <div class="columns">
+                                <div class="column is-one-quarter">
+                                    <span>Armas:</span>
+                                </div>
+                                <div class="column is-two-quarters">
+                                    <div class="columns">
+                                        <div class="column">
+                                            <input type="text" name="armaanome" id="armanome" class="input is-small"
+                                                placeholder="Nome da Arma">
+                                        </div>
+                                        <div class="column">
+                                            <span>Dano</span>
+                                            <input id="armadano" class="slider has-output is-fullwidth" step="1" min="1"
+                                                max="15" value="1" type="range">
+                                            <output id="armadanoout">1</output>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <br>
-                            <br>
-                            <div class="row">
-                                <div class="columns">
-                                    <div class="column is-one-quarter">
-                                        <span>Pontos restantes:</span>
-                                    </div>
-                                    <div class="column">
-                                        <span id='somapontos'></span>
-                                    </div>
+                                <div class="column is-one-quarter">
+                                    <span class="icon">
+                                        <i id="addarma" class="fas fa-plus-square"></i>
+                                    </span>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="columns">
-                                    <div class="column is-one-quarter">
-                                        <span>Inteligência:</span>
-                                    </div>
-                                    <div class="column">
-                                        <input id="inteligencia" class="slider has-output is-fullwidth" step="1"
-                                            min="6" max="15" value="8" type="range">
-                                        <output id="inteligenciaout">8</output>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="columns">
-                                    <div class="column is-one-quarter">
-                                        <span>Força:</span>
-                                    </div>
-                                    <div class="column">
-                                        <input id="forca" class="slider has-output is-fullwidth" step="1" min="6"
-                                            max="15" value="8" type="range">
-                                        <output id="forcaout">8</output>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="columns">
-                                    <div class="column is-one-quarter">
-                                        <span>Destreza:</span>
-                                    </div>
-                                    <div class="column">
-                                        <input id="destreza" class="slider has-output is-fullwidth" step="1"
-                                            min="6" max="15" value="8" type="range">
-                                        <output id="destrezaout">8</output>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="columns">
-                                    <div class="column is-one-quarter">
-                                        <span>Carisma:</span>
-                                    </div>
-                                    <div class="column">
-                                        <input id="carisma" class="slider has-output is-fullwidth" step="1"
-                                            min="6" max="15" value="8" type="range">
-                                        <output id="carismaout">8</output>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="columns">
-                                    <div class="column is-one-quarter">
-                                        <span>Constituição:</span>
-                                    </div>
-                                    <div class="column">
-                                        <input id="constituicao" class="slider has-output is-fullwidth" step="1"
-                                            min="6" max="15" value="8" type="range">
-                                        <output id="constituicaoout">8</output>
-                                    </div>
-                                </div>
-                            </div>
-                            <br>
-                            <br>
-                            <div class="row">
-                                <div class="columns">
-                                    <div class="column is-one-quarter">
-                                        <span>Armas:</span>
-                                    </div>
-                                    <div class="column is-two-quarters">
-                                        <div class="columns">
-                                            <div class="column">
-                                                <input type="text" name="armaanome" id="armanome" class="input is-small"
-                                                    placeholder="Nome da Arma">
-                                            </div>
-                                            <div class="column">
-                                                <span>Dano</span>
-                                                <input id="armadano" class="slider has-output is-fullwidth" step="1"
-                                                    min="1" max="15" value="1" type="range">
-                                                <output id="armadanoout">1</output>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="column is-one-quarter">
-                                        <span class="icon">
-                                            <i id="addarma" class="fas fa-plus-square"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="columns">
-                                    <div class="column">
-                                        <table class="table is-bordered is-fullwidth">
-                                            <thead>
-                                                <tr>
-                                                    <th>Nome</th>
-                                                    <th>Dano</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="listarma">
-                                            </tbody>
-                                        </table>
-                                    </div>
+                        </div>
+                        <div class="row">
+                            <div class="columns">
+                                <div class="column">
+                                    <table class="table is-bordered is-fullwidth">
+                                        <thead>
+                                            <tr>
+                                                <th>Nome</th>
+                                                <th>Dano</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="listaarmas">
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
         </div>
     </section>
 </body>

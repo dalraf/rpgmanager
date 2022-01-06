@@ -55,6 +55,29 @@ class Personagem:
 personagem = Personagem(storage)
 
 
+def update_armas():
+    for nome, dano in personagem.armas.items():
+        coluna1 = html.TD(nome)
+        coluna2 = html.TD(dano)
+        coluna3 = html.TD(html.BUTTON(
+            'Remover', Class='button is-info', **{'id': nome + "action", 'value': nome}))
+        linha = html.TR(**{'id': nome})
+        linha <= coluna1
+        linha <= coluna2
+        linha <= coluna3
+        document['listaarmas'] <= linha
+        document[nome + "action"].bind('click', removerarma)
+        if nome not in document['armarolar']:
+            document['armarolar'] <= html.OPTION(nome, **{'id': nome})
+
+    for arma in document['listaarmas'].children:
+        if arma.id not in list(personagem.armas.keys()):
+            arma.remove()
+    
+    for arma in document['armarolar']:
+        if arma.textContent not in list(personagem.armas.keys()):
+            arma.remove()
+
 def update_formulario_personagem():
     document['nome'].value = personagem.nome
     document['racas'].value = personagem.raca
@@ -70,18 +93,7 @@ def update_formulario_personagem():
     document['constituicaoout'].textContent = document['constituicao'].value
     document['destreza'].value = personagem.destreza
     document['destrezaout'].textContent = document['destreza'].value
-
-    for nome, dano in personagem.armas.items():
-        coluna1 = html.TD(nome)
-        coluna2 = html.TD(dano)
-        coluna3 = html.TD(html.BUTTON(
-            'Remover', Class='button is-info', **{'id': nome + "action", 'value': nome}))
-        linha = html.TR(**{'id': nome})
-        linha <= coluna1
-        linha <= coluna2
-        linha <= coluna3
-        document['listarma'] <= linha
-        document[nome + "action"].bind('click', removerarma)
+    update_armas()
 
 
 def verifica_soma_pontos():
@@ -160,17 +172,12 @@ def changedanoarma(evs):
 def addarma(evs):
     if document['armanome'] != '':
         personagem.armas[document['armanome'].value] = document['armadano'].value
-        coluna1 = html.TD(document['armanome'].value)
-        coluna2 = html.TD(document['armadano'].value)
-        coluna3 = html.TD(html.BUTTON(
-            'Remover', Class='button is-info', **{'id': document['armanome'].value + "action", 'value': document['armanome'].value}))
-        linha = html.TR(**{'id': document['armanome'].value})
-        linha <= coluna1
-        linha <= coluna2
-        linha <= coluna3
-        document['listarma'] <= linha
-        document[document['armanome'].value +
-                 "action"].bind('click', removerarma)
+        update_armas()
+
+
+def removerarma(evs):
+    del personagem.armas[evs.target.value]
+    update_armas()
 
 
 @ bind(document['deletar'], "click")
@@ -190,11 +197,6 @@ def salvar(evs):
         personagem.salvar()
         alert('Personagem salvo com sucesso!')
         update_formulario_personagem()
-
-
-def removerarma(evs):
-    del document[evs.target.value]
-    del personagem.armas[evs.target.value]
 
 
 @bind(document['rolar'], "click")
