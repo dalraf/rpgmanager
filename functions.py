@@ -70,12 +70,14 @@ def update_formulario_personagem():
     for nome, dano in personagem.armas.items():
         coluna1 = html.TD(nome)
         coluna2 = html.TD(dano)
-        coluna3 = html.TD(html.BUTTON('Remover', Class='button is-info'))
-        linha = html.TR()
+        coluna3 = html.TD(html.BUTTON(
+            'Remover', Class='button is-info', **{'id': nome + "action", 'value': nome}))
+        linha = html.TR(**{'id': nome})
         linha <= coluna1
         linha <= coluna2
         linha <= coluna3
         document['listarma'] <= linha
+        document[nome + "action"].bind('click', removerarma)
 
 
 def verifica_soma_pontos():
@@ -156,15 +158,18 @@ def addarma(evs):
         personagem.armas[document['armanome'].value] = document['armadano'].value
         coluna1 = html.TD(document['armanome'].value)
         coluna2 = html.TD(document['armadano'].value)
-        coluna3 = html.TD(html.BUTTON('Remover', Class='button is-info'))
-        linha = html.TR()
+        coluna3 = html.TD(html.BUTTON(
+            'Remover', Class='button is-info', **{'id': document['armanome'].value + "action", 'value': document['armanome'].value}))
+        linha = html.TR(**{'id': document['armanome'].value})
         linha <= coluna1
         linha <= coluna2
         linha <= coluna3
         document['listarma'] <= linha
+        document[document['armanome'].value +
+                 "action"].bind('click', removerarma)
 
 
-@bind(document['deletar'], "click")
+@ bind(document['deletar'], "click")
 def deletar(evs):
     personagem.deletar()
     update_formulario_personagem()
@@ -173,6 +178,12 @@ def deletar(evs):
 @bind(document['salvar'], "click")
 def salvar(evs):
     personagem.salvar()
+
+
+def removerarma(evs):
+    del document[evs.target.value]
+    del document.select[evs.target.value + 'action']
+    del personagem.armas[evs.target.value]
 
 
 update_formulario_personagem()
