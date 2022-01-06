@@ -182,7 +182,6 @@ def salvar(evs):
 
 def removerarma(evs):
     del document[evs.target.value]
-    del document.select[evs.target.value + 'action']
     del personagem.armas[evs.target.value]
 
 
