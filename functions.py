@@ -1,4 +1,4 @@
-from browser import document, bind
+from browser import document, bind, html
 
 
 def soma_pontos():
@@ -45,6 +45,21 @@ def slidechangecarisma(evs):
 def slidechangeconstiruicao(evs):
     document['outputconstituicao'].textContent = document['sliderconstituicao'].value
     soma_pontos()
+
+
+@bind(document['armadano'], "change")
+def changedanoarma(evs):
+    document['armadanoout'].textContent = document['armadano'].value
+
+
+@bind(document['addarma'], "click")
+def addarma(evs):
+    coluna1 = html.TD(document['armanome'].value)
+    coluna2 = html.TD(document['armadano'].value)
+    linha = html.TR()
+    linha <= coluna1
+    linha <= coluna2
+    document['listarma'] <= linha
 
 
 soma_pontos()

@@ -145,20 +145,20 @@
                                     <div class="column is-two-quarters">
                                         <div class="columns">
                                             <div class="column">
-                                                <input type="text" name="armaanome" id="nome" class="input is-small"
+                                                <input type="text" name="armaanome" id="armanome" class="input is-small"
                                                     placeholder="Nome da Arma">
                                             </div>
                                             <div class="column">
                                                 <span>Dano</span>
-                                                <input id="danoarma" class="slider has-output is-fullwidth" step="1"
+                                                <input id="armadano" class="slider has-output is-fullwidth" step="1"
                                                     min="1" max="15" value="1" type="range">
-                                                <output id="danoarmaout">1</output>
+                                                <output id="armadanoout">1</output>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="column is-one-quarter">
                                         <span class="icon">
-                                            <i class="fas fa-plus-square"></i>
+                                            <i id="addarma" class="fas fa-plus-square"></i>
                                         </span>
                                     </div>
                                 </div>
@@ -173,11 +173,7 @@
                                                     <th>Dano</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>2</td>
-                                                </tr>
+                                            <tbody id="listarma">
                                             </tbody>
                                         </table>
                                     </div>
