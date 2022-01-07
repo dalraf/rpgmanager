@@ -210,12 +210,12 @@ def rolar(env):
         caracter = personagem.constituicao
 
     dado = random.randint(1, 20)
-    resultado = dado - caracter
-    dano = abs(resultado * personagem.nivel)
-    if resultado <= 0:
-        alert(f'Você ganhou! Resultado do dado {dado}, saldo de {dano}')
+    resultado = caracter - (20 - dado)
+    difer = abs(resultado * personagem.nivel)
     if resultado > 0:
-        alert(f'Você perdeu! Resultado do dado {dado}, débito de {dano}')
+        alert(f'Você ganhou! Resultado do dado {dado}, saldo de {difer}')
+    if resultado < 0:
+        alert(f'Você perdeu! Resultado do dado {dado}, débito de {difer}')
 
 
 update_formulario_personagem()
