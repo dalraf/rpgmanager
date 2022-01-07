@@ -6,6 +6,7 @@
     "background_color": "#2A3443",
     "description": "Gerador de personagens para RPG",
     "theme_color": "#2A3443",
+    "id": "/",
     "icons": [
       {
         "src": "./icon.png",
@@ -14,3 +15,5 @@
       }
     ]
   }
+
+  
