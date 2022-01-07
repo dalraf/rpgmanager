@@ -213,9 +213,9 @@ def rolar(env):
     resultado = dado - caracter
     dano = abs(resultado * personagem.nivel)
     if resultado <= 0:
-        alert(f'Você ganhou! Resultado do dado {dado}, dano de {dano}')
+        alert(f'Você ganhou! Resultado do dado {dado}, saldo de {dano}')
     if resultado > 0:
-        alert(f'Você perdeu! Resultado do dado {dado}, dano de {dano}')
+        alert(f'Você perdeu! Resultado do dado {dado}, débito de {dano}')
 
 
 update_formulario_personagem()
