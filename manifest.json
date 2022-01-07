@@ -1,7 +1,7 @@
 {
     "name": "RPG Manager",
     "short_name": "RPG Manager",
-    "start_url": ".",
+    "start_url": "https://rpgmanager.vercel.app",
     "display": "standalone",
     "background_color": "#2A3443",
     "description": "Gerador de personagens para RPG",
