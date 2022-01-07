@@ -16,13 +16,14 @@
     <section class="section">
         <div class="container">
             <h1 class="title">Gerenciador de Personagem</h1>
+            <hr style="height:3px;background-color:black">
             <div class="columns">
                 <div class="column is-full">
                     <div class="rows">
                         <div class="row">
                             <div class="columns">
                                 <div class="column is-one-quarter">
-                                    <span>Rolar dados:</span>
+                                    <h2><b>ROLAR DADOS:</b></h2>
                                 </div>
                                 <div class="column">
                                     <div class="select">
@@ -44,24 +45,24 @@
                                     </div>
                                 </div>
                                 <div class="column">
-                                    <button id="rolar" class="button is-info">rolar</button>
+                                    <button id="rolar" class="button is-info">
+                                    <span>Rolar</span>
+                                    <span class="icon is-small">
+                                        <i class="fas fa-dice"></i>
+                                    </span>
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <br>
+                    <hr style="height:3px;background-color:black">
                     <br>
                     <div class="rows">
                         <div class="row">
                             <div class="columns">
                                 <div class="column is-one-quarter">
-                                    <span>Personagem:</span>
-                                </div>
-                                <div class="column">
-                                    <button id="salvar" class="button is-info">Salvar</button>
-                                </div>
-                                <div class="column">
-                                    <button id="deletar" class="button is-info">Deletar</button>
+                                    <h2><b>DADOS DO PERSONAGEM:</b></h2>
                                 </div>
                             </div>
                         </div>
@@ -177,12 +178,17 @@
                             </div>
                         </div>
                         <br>
+                        <hr style="height:3px;background-color:black">
                         <br>
                         <div class="row">
                             <div class="columns">
                                 <div class="column is-one-quarter">
-                                    <span>Armas:</span>
+                                    <h2><b>ARMAS:</b></hd2>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="columns">
                                 <div class="column is-two-quarters">
                                     <div class="columns">
                                         <div class="column">
@@ -198,12 +204,13 @@
                                     </div>
                                 </div>
                                 <div class="column is-one-quarter">
-                                    <span class="icon">
-                                        <i id="addarma" class="fas fa-plus-square"></i>
+                                    <span class="icon is-medium">
+                                        <i id="addarma" class="fas fa-2x fa-plus-square"></i>
                                     </span>
                                 </div>
                             </div>
                         </div>
+                        <br>
                         <div class="row">
                             <div class="columns">
                                 <div class="column">
@@ -217,6 +224,31 @@
                                         <tbody id="listaarmas">
                                         </tbody>
                                     </table>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <hr style="height:3px;background-color:black">
+                        <br>
+                        <div class="row">
+                            <div class="columns">
+                                <div class="column is-one-quarter">
+                                </div>
+                                <div class="column">
+                                    <button id="salvar" class="button is-info">
+                                        <span>Salvar</span>
+                                        <span class="icon is-small">
+                                            <i class="fas fa-save"></i>
+                                        </span>
+                                    </button>
+                                </div>
+                                <div class="column">
+                                    <button id="deletar" class="button is-danger">
+                                        <span>Deletar</span>
+                                        <span class="icon is-small">
+                                            <i class="fas fa-skull-crossbones"></i>
+                                        </span>
+                                    </button>
                                 </div>
                             </div>
                         </div>

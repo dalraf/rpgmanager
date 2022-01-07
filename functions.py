@@ -73,10 +73,11 @@ def update_armas():
     for arma in document['listaarmas'].children:
         if arma.id not in list(personagem.armas.keys()):
             arma.remove()
-    
+
     for arma in document['armarolar']:
         if arma.textContent not in list(personagem.armas.keys()):
             arma.remove()
+
 
 def update_formulario_personagem():
     document['nome'].value = personagem.nome
