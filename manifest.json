@@ -1,0 +1,16 @@
+{
+    "name": "RPG Manager",
+    "short_name": "RPG Manager",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#2A3443",
+    "description": "Gerador de personagens para RPG",
+    "theme_color": "#2A3443",
+    "icons": [
+      {
+        "src": "./icon.ico",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+    ]
+  }
