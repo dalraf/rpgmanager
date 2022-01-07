@@ -217,9 +217,9 @@ def rolar(env):
     dado = random.randint(1, 20)
     resultado = dado - caracter
     if resultado <= 0:
-        alert('Você ganhou!')
+        alert(f'Você ganhou! Resultado do dado {dado}')
     if resultado > 0:
-        alert('Você perdeu!')
+        alert(f'Você perdeu! Resultado do dado {dado}')
 
 
 update_formulario_personagem()
