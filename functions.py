@@ -57,25 +57,20 @@ personagem = Personagem(storage)
 
 def update_armas():
     for nome, dano in personagem.armas.items():
-        coluna1 = html.TD(nome)
-        coluna2 = html.TD(dano)
-        coluna3 = html.TD(html.BUTTON(
-            'Remover', Class='button is-info', **{'id': nome + "action", 'value': nome}))
-        linha = html.TR(**{'id': nome})
-        linha <= coluna1
-        linha <= coluna2
-        linha <= coluna3
-        document['listaarmas'] <= linha
-        document[nome + "action"].bind('click', removerarma)
-        if nome not in document['armarolar']:
-            document['armarolar'] <= html.OPTION(nome, **{'id': nome})
+        if nome not in [arma.id for arma in document['listaarmas'].children]:
+            coluna1 = html.TD(nome)
+            coluna2 = html.TD(dano)
+            coluna3 = html.TD(html.BUTTON(
+                'Remover', Class='button is-info', **{'id': nome + "action", 'value': nome}))
+            linha = html.TR(**{'id': nome})
+            linha <= coluna1
+            linha <= coluna2
+            linha <= coluna3
+            document['listaarmas'] <= linha
+            document[nome + "action"].bind('click', removerarma)
 
     for arma in document['listaarmas'].children:
         if arma.id not in list(personagem.armas.keys()):
-            arma.remove()
-
-    for arma in document['armarolar']:
-        if arma.textContent not in list(personagem.armas.keys()):
             arma.remove()
 
 
@@ -216,10 +211,11 @@ def rolar(env):
 
     dado = random.randint(1, 20)
     resultado = dado - caracter
+    dano = resultado * personagem.nivel
     if resultado <= 0:
-        alert(f'Você ganhou! Resultado do dado {dado}')
+        alert(f'Você ganhou! Resultado do dado {dado}, dano de {dano}')
     if resultado > 0:
-        alert(f'Você perdeu! Resultado do dado {dado}')
+        alert(f'Você perdeu! Resultado do dado {dado}, dano de {dano}')
 
 
 update_formulario_personagem()
