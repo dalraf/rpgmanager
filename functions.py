@@ -14,6 +14,7 @@ class Personagem:
         self.nome = self.dados.get('nome') or ''
         self.raca = self.dados.get('raca') or ''
         self.nivel = self.dados.get('nivel') or 1
+        self.hp = self.dados.get('hp') or 50
         self.forca = self.dados.get('forca') or 8
         self.inteligencia = self.dados.get('inteligencia') or 8
         self.carisma = self.dados.get('carisma') or 8
@@ -25,6 +26,7 @@ class Personagem:
         self.dados['nome'] = self.nome
         self.dados['raca'] = self.raca
         self.dados['nivel'] = self.nivel
+        self.dados['hp'] = self.hp
         self.dados['forca'] = self.forca
         self.dados['inteligencia'] = self.inteligencia
         self.dados['carisma'] = self.carisma
@@ -39,6 +41,7 @@ class Personagem:
         self.nome = ''
         self.raca = ''
         self.nivel = 1
+        self.hp = 50
         self.forca = 8
         self.inteligencia = 8
         self.carisma = 8
@@ -78,7 +81,9 @@ def update_formulario_personagem():
     document['nome'].value = personagem.nome
     document['racas'].value = personagem.raca
     document['nivel'].value = personagem.nivel
+    document['hp'].value = personagem.hp
     document['nivelout'].textContent = document['nivel'].value
+    document['hpout'].textContent = document['hp'].value
     document['forca'].value = personagem.forca
     document['forcaout'].textContent = document['forca'].value
     document['inteligencia'].value = personagem.inteligencia
@@ -112,6 +117,12 @@ def verifica_soma_pontos():
 def changenivel(evs):
     document['nivelout'].textContent = document['nivel'].value
     personagem.nivel = int(document['nivel'].value)
+
+
+@bind(document['hp'], "change")
+def changehp(evs):
+    document['hpout'].textContent = document['hp'].value
+    personagem.hp = int(document['hp'].value)
 
 
 @bind(document['nome'], "change")
