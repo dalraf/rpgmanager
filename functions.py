@@ -13,6 +13,7 @@ carisma = 'carisma'
 constituicao = 'constituicao'
 destreza = 'destreza'
 armas = 'armas'
+descricao = 'descricao'
 
 
 class Personagem:
@@ -24,6 +25,7 @@ class Personagem:
             self.dados = {}
         self.dados[nome] = self.dados.get(nome) or ''
         self.dados[raca] = self.dados.get(raca) or ''
+        self.dados[descricao] = self.dados.get(descricao) or ''
         self.dados[nivel] = self.dados.get(nivel) or 1
         self.dados[hp] = self.dados.get(hp) or 50
         self.dados[forca] = self.dados.get(forca) or 8
@@ -41,6 +43,7 @@ class Personagem:
         self.dados = {}
         self.dados[nome] = ''
         self.dados[raca] = ''
+        self.dados[descricao] = ''
         self.dados[nivel] = 1
         self.dados[hp] = 50
         self.dados[forca] = 8
@@ -81,6 +84,7 @@ def update_armas():
 def update_formulario_personagem():
     document['nome'].value = personagem.dados[nome]
     document['raca'].value = personagem.dados[raca]
+    document[descricao].value = personagem.dados[descricao]
     document['nivel'].value = personagem.dados[nivel]
     document['nivelout'].textContent = document['nivel'].value
     document['hp'].value = personagem.dados[hp]
@@ -134,6 +138,11 @@ def changenome(evs):
 @bind(document['raca'], "change")
 def changeraca(evs):
     personagem.dados[raca] = document['raca'].value
+
+
+@bind(document[descricao], "change")
+def changedescricao(evs):
+    personagem.dados[descricao] = document[descricao].value
 
 
 @bind(document['inteligencia'], "change")
