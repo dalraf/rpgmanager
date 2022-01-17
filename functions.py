@@ -189,12 +189,12 @@ def changedanoarma(evs):
 @bind(document['addarma'], "click")
 def addarma(evs):
     if document['armanome'] != '':
-        personagem.armas[document['armanome'].value] = document['armadano'].value
+        personagem.dados[armas][document['armanome'].value] = document['armadano'].value
         update_armas()
 
 
 def removerarma(evs):
-    del personagem.armas[evs.target.value]
+    del personagem.dados[armas][evs.target.value]
     update_armas()
 
 
