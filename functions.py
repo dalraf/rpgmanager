@@ -14,6 +14,7 @@ constituicao = 'constituicao'
 destreza = 'destreza'
 armas = 'armas'
 descricao = 'descricao'
+out = 'out'
 
 
 class Personagem:
@@ -82,23 +83,23 @@ def update_armas():
 
 
 def update_formulario_personagem():
-    document['nome'].value = personagem.dados[nome]
-    document['raca'].value = personagem.dados[raca]
+    document[nome].value = personagem.dados[nome]
+    document[raca].value = personagem.dados[raca]
     document[descricao].value = personagem.dados[descricao]
-    document['nivel'].value = personagem.dados[nivel]
-    document['nivelout'].textContent = document['nivel'].value
-    document['hp'].value = personagem.dados[hp]
-    document['hpout'].textContent = document['hp'].value
-    document['forca'].value = personagem.dados[forca]
-    document['forcaout'].textContent = document['forca'].value
-    document['inteligencia'].value = personagem.dados[inteligencia]
-    document['inteligenciaout'].textContent = document['inteligencia'].value
-    document['carisma'].value = personagem.dados[carisma]
-    document['carismaout'].textContent = document['carisma'].value
-    document['constituicao'].value = personagem.dados[constituicao]
-    document['constituicaoout'].textContent = document['constituicao'].value
-    document['destreza'].value = personagem.dados[destreza]
-    document['destrezaout'].textContent = document['destreza'].value
+    document[nivel].value = personagem.dados[nivel]
+    document[nivel + out].textContent = document[nivel].value
+    document[hp].value = personagem.dados[hp]
+    document[hp + out].textContent = document[hp].value
+    document[forca].value = personagem.dados[forca]
+    document[forca + out].textContent = document[forca].value
+    document[inteligencia].value = personagem.dados[inteligencia]
+    document[inteligencia + out].textContent = document[inteligencia].value
+    document[carisma].value = personagem.dados[carisma]
+    document[carisma + out].textContent = document[carisma].value
+    document[constituicao].value = personagem.dados[constituicao]
+    document[constituicao + out].textContent = document[constituicao].value
+    document[destreza].value = personagem.dados[destreza]
+    document[destreza + out].textContent = document[destreza].value
     update_armas()
 
 
@@ -118,26 +119,26 @@ def verifica_soma_pontos():
         document['somapontos'].style.color = 'red'
 
 
-@bind(document['nivel'], "change")
+@bind(document[nivel], "change")
 def changenivel(evs):
-    document['nivelout'].textContent = document['nivel'].value
-    personagem.dados[nivel] = int(document['nivel'].value)
+    document[nivel + out].textContent = document[nivel].value
+    personagem.dados[nivel] = int(document[nivel].value)
 
 
-@bind(document['hp'], "change")
+@bind(document[hp], "change")
 def changehp(evs):
-    document['hpout'].textContent = document['hp'].value
-    personagem.dados[hp] = int(document['hp'].value)
+    document[hp + out].textContent = document[hp].value
+    personagem.dados[hp] = int(document[hp].value)
 
 
-@bind(document['nome'], "change")
+@bind(document[nome], "change")
 def changenome(evs):
-    personagem.dados[nome] = document['nome'].value
+    personagem.dados[nome] = document[nome].value
 
 
-@bind(document['raca'], "change")
+@bind(document[raca], "change")
 def changeraca(evs):
-    personagem.dados[raca] = document['raca'].value
+    personagem.dados[raca] = document[raca].value
 
 
 @bind(document[descricao], "change")
@@ -145,38 +146,38 @@ def changedescricao(evs):
     personagem.dados[descricao] = document[descricao].value
 
 
-@bind(document['inteligencia'], "change")
+@bind(document[inteligencia], "change")
 def changeinteligencia(evs):
-    document['inteligenciaout'].textContent = document['inteligencia'].value
-    personagem.dados[inteligencia] = int(document['inteligencia'].value)
+    document[inteligencia + out].textContent = document[inteligencia].value
+    personagem.dados[inteligencia] = int(document[inteligencia].value)
     verifica_soma_pontos()
 
 
-@bind(document['forca'], "change")
+@bind(document[forca], "change")
 def changeforca(evs):
-    document['forcaout'].textContent = document['forca'].value
-    personagem.dados[forca] = int(document['forca'].value)
+    document[forca + out].textContent = document[forca].value
+    personagem.dados[forca] = int(document[forca].value)
     verifica_soma_pontos()
 
 
-@bind(document['destreza'], "change")
+@bind(document[destreza], "change")
 def changedestreza(evs):
-    document['destrezaout'].textContent = document['destreza'].value
-    personagem.dados[destreza] = int(document['destreza'].value)
+    document[destreza + out].textContent = document[destreza].value
+    personagem.dados[destreza] = int(document[destreza].value)
     verifica_soma_pontos()
 
 
-@bind(document['carisma'], "change")
+@bind(document[carisma], "change")
 def changecarisma(evs):
-    document['carismaout'].textContent = document['carisma'].value
-    personagem.dados[carisma] = int(document['carisma'].value)
+    document[carisma + out].textContent = document[carisma].value
+    personagem.dados[carisma] = int(document[carisma].value)
     verifica_soma_pontos()
 
 
-@bind(document['constituicao'], "change")
+@bind(document[constituicao], "change")
 def changeconstituicao(evs):
-    document['constituicaoout'].textContent = document['constituicao'].value
-    personagem.dados[constituicao] = int(document['constituicao'].value)
+    document[constituicao + out].textContent = document[constituicao].value
+    personagem.dados[constituicao] = int(document[constituicao].value)
     verifica_soma_pontos()
 
 
