@@ -223,7 +223,7 @@ def rolar(env):
 
     dado = random.randint(1, 20)
     resultado = caracter - (20 - dado)
-    difer = abs(resultado * personagem.nivel)
+    difer = abs(resultado * personagem.dados[nivel])
     if resultado > 0:
         alert(f'Você ganhou! Resultado do dado {dado}, saldo de {difer}')
     if resultado < 0:
