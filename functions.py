@@ -60,7 +60,7 @@ personagem = Personagem(storage)
 
 
 def update_armas():
-    for nome, dano in personagem.armas.items():
+    for nome, dano in personagem.dados[armas].items():
         if nome not in [arma.id for arma in document['listaarmas'].children]:
             coluna1 = html.TD(nome)
             coluna2 = html.TD(dano)
@@ -74,13 +74,13 @@ def update_armas():
             document[nome + "action"].bind('click', removerarma)
 
     for arma in document['listaarmas'].children:
-        if arma.id not in list(personagem.armas.keys()):
+        if arma.id not in list(personagem.dados[armas].keys()):
             arma.remove()
 
 
 def update_formulario_personagem():
     document['nome'].value = personagem.dados[nome]
-    document['racas'].value = personagem.dados[raca]
+    document['raca'].value = personagem.dados[raca]
     document['nivel'].value = personagem.dados[nivel]
     document['nivelout'].textContent = document['nivel'].value
     document['hp'].value = personagem.dados[hp]
@@ -131,9 +131,9 @@ def changenome(evs):
     personagem.dados[nome] = document['nome'].value
 
 
-@bind(document['racas'], "change")
+@bind(document['raca'], "change")
 def changeraca(evs):
-    personagem.dados[raca] = document['racas'].value
+    personagem.dados[raca] = document['raca'].value
 
 
 @bind(document['inteligencia'], "change")
