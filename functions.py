@@ -3,6 +3,17 @@ from browser.local_storage import storage
 import random
 import json
 
+nome = 'nome'
+raca = 'raca'
+nivel = 'nivel'
+hp = 'hp'
+forca = 'forca'
+inteligencia = 'inteligencia'
+carisma = 'carisma'
+constituicao = 'constituicao'
+destreza = 'destreza'
+armas = 'armas'
+
 
 class Personagem:
     def __init__(self, storage):
@@ -11,48 +22,38 @@ class Personagem:
             self.dados = json.loads(self.storage['dados'])
         else:
             self.dados = {}
-        self.nome = self.dados.get('nome') or ''
-        self.raca = self.dados.get('raca') or ''
-        self.nivel = self.dados.get('nivel') or 1
-        self.hp = self.dados.get('hp') or 50
-        self.forca = self.dados.get('forca') or 8
-        self.inteligencia = self.dados.get('inteligencia') or 8
-        self.carisma = self.dados.get('carisma') or 8
-        self.constituicao = self.dados.get('constituicao') or 8
-        self.destreza = self.dados.get('destreza') or 8
-        self.armas = self.dados.get('armas') or {}
+        self.dados[nome] = self.dados.get(nome) or ''
+        self.dados[raca] = self.dados.get(raca) or ''
+        self.dados[nivel] = self.dados.get(nivel) or 1
+        self.dados[hp] = self.dados.get(hp) or 50
+        self.dados[forca] = self.dados.get(forca) or 8
+        self.dados[forca] = self.dados.get(forca) or 8
+        self.dados[carisma] = self.dados.get(carisma) or 8
+        self.dados[constituicao] = self.dados.get(constituicao) or 8
+        self.dados[destreza] = self.dados.get(destreza) or 8
+        self.dados[armas] = self.dados.get(armas) or {}
 
     def salvar(self):
-        self.dados['nome'] = self.nome
-        self.dados['raca'] = self.raca
-        self.dados['nivel'] = self.nivel
-        self.dados['hp'] = self.hp
-        self.dados['forca'] = self.forca
-        self.dados['inteligencia'] = self.inteligencia
-        self.dados['carisma'] = self.carisma
-        self.dados['constituicao'] = self.constituicao
-        self.dados['destreza'] = self.destreza
-        self.dados['armas'] = self.armas
         self.storage['dados'] = json.dumps(self.dados, ensure_ascii=False)
 
     def deletar(self):
         del self.storage['dados']
         self.dados = {}
-        self.nome = ''
-        self.raca = ''
-        self.nivel = 1
-        self.hp = 50
-        self.forca = 8
-        self.inteligencia = 8
-        self.carisma = 8
-        self.constituicao = 8
-        self.destreza = 8
-        self.armas = {}
+        self.dados[nome] = ''
+        self.dados[raca] = ''
+        self.dados[nivel] = 1
+        self.dados[hp] = 50
+        self.dados[forca] = 8
+        self.dados[inteligencia] = 8
+        self.dados[carisma] = 8
+        self.dados[constituicao] = 8
+        self.dados[destreza] = 8
+        self.dados[armas] = {}
 
     def cacl_pontos_restantes(self):
         self.pontos_restantes = 50 - \
-            (self.forca + self.inteligencia +
-             self.carisma + self.constituicao + self.destreza)
+            (self.dados[forca] + self.dados[inteligencia] +
+             self.dados[carisma] + self.dados[constituicao] + self.dados[destreza])
 
 
 personagem = Personagem(storage)
@@ -78,21 +79,21 @@ def update_armas():
 
 
 def update_formulario_personagem():
-    document['nome'].value = personagem.nome
-    document['racas'].value = personagem.raca
-    document['nivel'].value = personagem.nivel
-    document['hp'].value = personagem.hp
+    document['nome'].value = personagem.dados[nome]
+    document['racas'].value = personagem.dados[raca]
+    document['nivel'].value = personagem.dados[nivel]
     document['nivelout'].textContent = document['nivel'].value
+    document['hp'].value = personagem.dados[hp]
     document['hpout'].textContent = document['hp'].value
-    document['forca'].value = personagem.forca
+    document['forca'].value = personagem.dados[forca]
     document['forcaout'].textContent = document['forca'].value
-    document['inteligencia'].value = personagem.inteligencia
+    document['inteligencia'].value = personagem.dados[inteligencia]
     document['inteligenciaout'].textContent = document['inteligencia'].value
-    document['carisma'].value = personagem.carisma
+    document['carisma'].value = personagem.dados[carisma]
     document['carismaout'].textContent = document['carisma'].value
-    document['constituicao'].value = personagem.constituicao
+    document['constituicao'].value = personagem.dados[constituicao]
     document['constituicaoout'].textContent = document['constituicao'].value
-    document['destreza'].value = personagem.destreza
+    document['destreza'].value = personagem.dados[destreza]
     document['destrezaout'].textContent = document['destreza'].value
     update_armas()
 
@@ -116,57 +117,57 @@ def verifica_soma_pontos():
 @bind(document['nivel'], "change")
 def changenivel(evs):
     document['nivelout'].textContent = document['nivel'].value
-    personagem.nivel = int(document['nivel'].value)
+    personagem.dados[nivel] = int(document['nivel'].value)
 
 
 @bind(document['hp'], "change")
 def changehp(evs):
     document['hpout'].textContent = document['hp'].value
-    personagem.hp = int(document['hp'].value)
+    personagem.dados[hp] = int(document['hp'].value)
 
 
 @bind(document['nome'], "change")
 def changenome(evs):
-    personagem.nome = document['nome'].value
+    personagem.dados[nome] = document['nome'].value
 
 
 @bind(document['racas'], "change")
 def changeraca(evs):
-    personagem.raca = document['racas'].value
+    personagem.dados[raca] = document['racas'].value
 
 
 @bind(document['inteligencia'], "change")
 def changeinteligencia(evs):
     document['inteligenciaout'].textContent = document['inteligencia'].value
-    personagem.inteligencia = int(document['inteligencia'].value)
+    personagem.dados[inteligencia] = int(document['inteligencia'].value)
     verifica_soma_pontos()
 
 
 @bind(document['forca'], "change")
 def changeforca(evs):
     document['forcaout'].textContent = document['forca'].value
-    personagem.forca = int(document['forca'].value)
+    personagem.dados[forca] = int(document['forca'].value)
     verifica_soma_pontos()
 
 
 @bind(document['destreza'], "change")
 def changedestreza(evs):
     document['destrezaout'].textContent = document['destreza'].value
-    personagem.destreza = int(document['destreza'].value)
+    personagem.dados[destreza] = int(document['destreza'].value)
     verifica_soma_pontos()
 
 
 @bind(document['carisma'], "change")
 def changecarisma(evs):
     document['carismaout'].textContent = document['carisma'].value
-    personagem.carisma = int(document['carisma'].value)
+    personagem.dados[carisma] = int(document['carisma'].value)
     verifica_soma_pontos()
 
 
 @bind(document['constituicao'], "change")
 def changeconstituicao(evs):
     document['constituicaoout'].textContent = document['constituicao'].value
-    personagem.constituicao = int(document['constituicao'].value)
+    personagem.dados[constituicao] = int(document['constituicao'].value)
     verifica_soma_pontos()
 
 
@@ -210,15 +211,15 @@ def salvar(evs):
 def rolar(env):
     caracter_name = document['caracter'].value
     if caracter_name == 'Inteligência':
-        caracter = personagem.inteligencia
+        caracter = personagem.dados[inteligencia]
     elif caracter_name == 'Força':
-        caracter = personagem.forca
+        caracter = personagem.dados[forca]
     elif caracter_name == 'Destreza':
-        caracter = personagem.destreza
+        caracter = personagem.dados[destreza]
     elif caracter_name == 'Carisma':
-        caracter = personagem.carisma
+        caracter = personagem.dados[carisma]
     elif caracter_name == 'Constituição':
-        caracter = personagem.constituicao
+        caracter = personagem.dados[constituicao]
 
     dado = random.randint(1, 20)
     resultado = caracter - (20 - dado)
