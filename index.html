@@ -18,15 +18,19 @@
     <section class="section">
         <div class="container">
             <h1 class="title">Gerenciador de Personagem</h1>
-            <hr style="height:3px;background-color:black">
             <div class="columns">
                 <div class="column is-full">
                     <div class="rows">
                         <div class="row">
                             <div class="columns">
-                                <div class="column is-one-quarter">
+                                <div class="column has-background-grey-lighter">
                                     <h2><b>ROLAR DADOS:</b></h2>
                                 </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="columns">                               
                                 <div class="column">
                                     <div class="select">
                                         <select id='caracter'>
@@ -51,23 +55,22 @@
                         </div>
                     </div>
                     <br>
-                    <hr style="height:3px;background-color:black">
-                    <br>
                     <div class="rows">
                         <div class="row">
                             <div class="columns">
-                                <div class="column is-one-quarter">
+                                <div class="column has-background-grey-lighter">
                                     <h2><b>DADOS DO PERSONAGEM:</b></h2>
                                 </div>
                             </div>
                         </div>
+                        <br>
                         <div class="row">
                             <div class="columns">
                                 <div class="column is-one-quarter">
                                     <span>Nível:</span>
                                 </div>
                                 <div class="column">
-                                    <input id="nivel" class="slider has-output is-fullwidth" step="1" min="1" max="15"
+                                    <input id="nivel" class="slider is-info has-output is-fullwidth" step="1" min="1" max="15"
                                         value="1" type="range">
                                     <output id="nivelout">1</output>
                                 </div>
@@ -79,7 +82,7 @@
                                     <span>HP:</span>
                                 </div>
                                 <div class="column">
-                                    <input id="hp" class="slider has-output is-fullwidth" step="1" min="1" max="50"
+                                    <input id="hp" class="slider is-info has-output is-fullwidth" step="1" min="1" max="50"
                                         value="1" type="range">
                                     <output id="hpout">1</output>
                                 </div>
@@ -119,24 +122,24 @@
                             </div>
                         </div>
                         <br>
-                        <br>
                         <div class="row">
                             <div class="columns">
-                                <div class="column is-one-quarter">
-                                    <span>Pontos restantes:</span>
+                                <div class="column has-background-grey-lighter">
+                                    <h2><b>DISTRUIBUIÇÃO DE PONTOS:</b></h2>
                                 </div>
                                 <div class="column">
-                                    <span id='somapontos'></span>
+                                    <i><span id='somapontos'></span></i>
                                 </div>
                             </div>
                         </div>
+                        <br>
                         <div class="row">
                             <div class="columns">
                                 <div class="column is-one-quarter">
                                     <span>Inteligência:</span>
                                 </div>
                                 <div class="column">
-                                    <input id="inteligencia" class="slider has-output is-fullwidth" step="1" min="6"
+                                    <input id="inteligencia" class="slider is-info has-output is-fullwidth" step="1" min="6"
                                         max="15" value="8" type="range">
                                     <output id="inteligenciaout">8</output>
                                 </div>
@@ -148,7 +151,7 @@
                                     <span>Força:</span>
                                 </div>
                                 <div class="column">
-                                    <input id="forca" class="slider has-output is-fullwidth" step="1" min="6" max="15"
+                                    <input id="forca" class="slider is-info has-output is-fullwidth" step="1" min="6" max="15"
                                         value="8" type="range">
                                     <output id="forcaout">8</output>
                                 </div>
@@ -160,7 +163,7 @@
                                     <span>Destreza:</span>
                                 </div>
                                 <div class="column">
-                                    <input id="destreza" class="slider has-output is-fullwidth" step="1" min="6"
+                                    <input id="destreza" class="slider is-info has-output is-fullwidth" step="1" min="6"
                                         max="15" value="8" type="range">
                                     <output id="destrezaout">8</output>
                                 </div>
@@ -172,7 +175,7 @@
                                     <span>Carisma:</span>
                                 </div>
                                 <div class="column">
-                                    <input id="carisma" class="slider has-output is-fullwidth" step="1" min="6" max="15"
+                                    <input id="carisma" class="slider is-info has-output is-fullwidth" step="1" min="6" max="15"
                                         value="8" type="range">
                                     <output id="carismaout">8</output>
                                 </div>
@@ -184,22 +187,21 @@
                                     <span>Constituição:</span>
                                 </div>
                                 <div class="column">
-                                    <input id="constituicao" class="slider has-output is-fullwidth" step="1" min="6"
+                                    <input id="constituicao" class="slider is-info has-output is-fullwidth" step="1" min="6"
                                         max="15" value="8" type="range">
                                     <output id="constituicaoout">8</output>
                                 </div>
                             </div>
                         </div>
                         <br>
-                        <hr style="height:3px;background-color:black">
-                        <br>
                         <div class="row">
                             <div class="columns">
-                                <div class="column is-one-quarter">
+                                <div class="column has-background-grey-lighter">
                                     <h2><b>ARMAS:</b></h2>
                                 </div>
                             </div>
                         </div>
+                        <br>
                         <div class="row">
                             <div class="columns">
                                 <div class="column">
@@ -211,10 +213,7 @@
                                     </div>
                                     <div class="columns">
                                         <div class="column">
-                                            <h3><b>Dano:</b></h3>
-                                        </div>
-                                        <div class="column">
-                                            <input id="armadano" class="slider has-output is-fullwidth" step="1" min="1"
+                                            <input id="armadano" class="slider is-info has-output is-fullwidth" step="1" min="1"
                                                 max="15" value="1" type="range">
                                             <output id="armadanoout">1</output>
                                         </div>
