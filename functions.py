@@ -78,14 +78,9 @@ class Personagem:
 
 personagem = Personagem(storage)
 
-# --- UI Helpers ---
+# --- UI Helpers (Toasts) ---
 
 def show_notification(message, type='is-info'):
-    """
-    Exibe uma notificação usando classes do Bulma.
-    type: is-info, is-success, is-warning, is-danger
-    """
-    # Remove notificacao anterior se existir
     existing = document.select('.notification-toast')
     for el in existing:
         el.remove()
@@ -93,10 +88,10 @@ def show_notification(message, type='is-info'):
     box = html.DIV(Class=f"notification {type} notification-toast")
     box.style = {
         "position": "fixed",
-        "top": "20px",
+        "top": "70px", # Abaixo do header sticky se houver
         "right": "20px",
+        "left": "20px", # Centralizado no mobile
         "zIndex": "1000",
-        "maxWidth": "300px",
         "boxShadow": "0 2px 10px rgba(0,0,0,0.2)"
     }
     
@@ -107,50 +102,138 @@ def show_notification(message, type='is-info'):
     box <= html.DIV(message)
     
     document.body <= box
-    
-    # Auto remove apos 4 segundos
-    window.setTimeout(lambda: box.remove() if box.parent else None, 4000)
+    window.setTimeout(lambda: box.remove() if box.parent else None, 3000)
 
-# --- Update Functions ---
+# --- Tab Navigation Logic ---
+
+def switch_tab(tab_name):
+    # Tabs buttons
+    tabs = ['perfil', 'atributos', 'combate']
+    for t in tabs:
+        # Update Tab Styling
+        li = document[f"tab-btn-{t}"]
+        if t == tab_name:
+            li.classList.add("is-active")
+        else:
+            li.classList.remove("is-active")
+            
+        # Update Content Visibility
+        content = document[f"view-{t}"]
+        if t == tab_name:
+            content.classList.add("is-active")
+        else:
+            content.classList.remove("is-active")
+
+@bind(document["tab-btn-perfil"], "click")
+def nav_perfil(ev): switch_tab('perfil')
+
+@bind(document["tab-btn-atributos"], "click")
+def nav_atributos(ev): switch_tab('atributos')
+
+@bind(document["tab-btn-combate"], "click")
+def nav_combate(ev): switch_tab('combate')
+
+# --- Stepper Logic (Plus/Minus) ---
+
+def update_display(attr_id, value):
+    # Atualiza tanto o span visual quanto o input hidden
+    if f"{attr_id}out" in document:
+        document[f"{attr_id}out"].textContent = value
+    if attr_id in document:
+        document[attr_id].value = value
+
+def change_value(attr_id, delta, min_val, max_val):
+    current = int(document[attr_id].value)
+    new_val = current + delta
+    
+    if new_val < min_val: return
+    if new_val > max_val: return
+    
+    # Atualiza modelo
+    if attr_id in personagem.dados:
+        personagem.dados[attr_id] = new_val
+    
+    update_display(attr_id, new_val)
+    
+    # Verifica pontos se for atributo
+    if attr_id in ATRIBUTOS:
+        verifica_soma_pontos()
+
+def create_stepper_handlers(attr_id, min_v, max_v):
+    # Bind Minus
+    @bind(document[f"btn-minus-{attr_id}"], "click")
+    def minus(ev):
+        change_value(attr_id, -1, min_v, max_v)
+        
+    # Bind Plus
+    @bind(document[f"btn-plus-{attr_id}"], "click")
+    def plus(ev):
+        change_value(attr_id, 1, min_v, max_v)
+
+# Setup Atributos Steppers
+for attr in ATRIBUTOS:
+    create_stepper_handlers(attr, MIN_ATRIBUTO, MAX_ATRIBUTO)
+
+# Setup Nivel e HP Steppers
+create_stepper_handlers(NIVEL, 1, 20)
+create_stepper_handlers(HP, 1, 999)
+
+# Setup Arma Temp Stepper
+@bind(document["btn-minus-arma"], "click")
+def minus_arma(ev):
+    curr = int(document["armadano"].value)
+    if curr > 1:
+        document["armadano"].value = curr - 1
+        document["armadanoout"].textContent = curr - 1
+
+@bind(document["btn-plus-arma"], "click")
+def plus_arma(ev):
+    curr = int(document["armadano"].value)
+    if curr < 50:
+        document["armadano"].value = curr + 1
+        document["armadanoout"].textContent = curr + 1
+
+# --- Core Functions ---
 
 def update_armas():
     lista_armas = document['listaarmas']
+    lista_armas.clear() # Limpa tudo para reconstruir (mais simples para Mobile Table)
     
-    # Adicionar novas
     for nome, dano in personagem.dados[ARMAS].items():
-        if nome not in [child.id for child in lista_armas.children]:
-            row = html.TR(id=nome)
-            row <= html.TD(nome)
-            row <= html.TD(dano)
-            
-            btn_remove = html.BUTTON('Remover', Class='button is-small is-danger is-outlined')
-            btn_remove.bind('click', lambda ev, n=nome: remover_arma(n))
-            
-            row <= html.TD(btn_remove)
-            lista_armas <= row
-
-    # Remover deletadas
-    ids_atuais = list(personagem.dados[ARMAS].keys())
-    for child in list(lista_armas.children):
-        if child.id not in ids_atuais:
-            child.remove()
+        row = html.TR()
+        
+        # Coluna Nome (com data-label para CSS mobile)
+        c_nome = html.TD(nome, **{'data-label': 'Nome'})
+        
+        # Coluna Dano
+        c_dano = html.TD(dano, **{'data-label': 'Poder'})
+        
+        # Coluna Acao
+        c_acao = html.TD(**{'data-label': 'Ação'})
+        btn_remove = html.BUTTON(Class='button is-small is-danger is-outlined')
+        icon = html.SPAN(Class="icon is-small")
+        icon <= html.I(Class="fas fa-trash")
+        btn_remove <= icon
+        btn_remove.bind('click', lambda ev, n=nome: remover_arma(n))
+        c_acao <= btn_remove
+        
+        row <= c_nome
+        row <= c_dano
+        row <= c_acao
+        lista_armas <= row
 
 def update_formulario_personagem():
-    # Campos de texto e sliders gerais
+    # Campos Texto
     document[NOME].value = personagem.dados[NOME]
     document[RACA].value = personagem.dados[RACA]
     document[DESCRICAO].value = personagem.dados[DESCRICAO]
     
-    document[NIVEL].value = personagem.dados[NIVEL]
-    document[f"{NIVEL}out"].textContent = personagem.dados[NIVEL]
+    # Steppers
+    update_display(NIVEL, personagem.dados[NIVEL])
+    update_display(HP, personagem.dados[HP])
     
-    document[HP].value = personagem.dados[HP]
-    document[f"{HP}out"].textContent = personagem.dados[HP]
-    
-    # Atributos
     for attr in ATRIBUTOS:
-        document[attr].value = personagem.dados[attr]
-        document[f"{attr}out"].textContent = personagem.dados[attr]
+        update_display(attr, personagem.dados[attr])
         
     update_armas()
     verifica_soma_pontos()
@@ -160,41 +243,16 @@ def verifica_soma_pontos():
     span_pontos = document['somapontos']
     
     if personagem.pontos_restantes > 0:
-        span_pontos.textContent = f'Faltam {personagem.pontos_restantes} pontos'
-        span_pontos.className = 'tag is-warning is-light is-medium'
+        span_pontos.textContent = f'{personagem.pontos_restantes}'
+        span_pontos.className = 'tag is-medium is-warning'
     elif personagem.pontos_restantes == 0:
-        span_pontos.textContent = 'Pontos suficientes'
-        span_pontos.className = 'tag is-success is-light is-medium'
+        span_pontos.textContent = 'OK'
+        span_pontos.className = 'tag is-medium is-success'
     else:
-        span_pontos.textContent = f'Excesso de {abs(personagem.pontos_restantes)} pontos!'
-        span_pontos.className = 'tag is-danger is-light is-medium'
+        span_pontos.textContent = f'{personagem.pontos_restantes}'
+        span_pontos.className = 'tag is-medium is-danger'
 
-# --- Event Handlers ---
-
-# Handler Genérico para Atributos
-def create_attr_handler(attr_name):
-    def handler(ev):
-        val = int(ev.target.value)
-        personagem.dados[attr_name] = val
-        document[f"{attr_name}out"].textContent = val
-        verifica_soma_pontos()
-    return handler
-
-# Bind nos atributos
-for attr in ATRIBUTOS:
-    document[attr].bind("input", create_attr_handler(attr))
-
-@bind(document[NIVEL], "input")
-def changenivel(ev):
-    val = int(ev.target.value)
-    document[f"{NIVEL}out"].textContent = val
-    personagem.dados[NIVEL] = val
-
-@bind(document[HP], "input")
-def changehp(ev):
-    val = int(ev.target.value)
-    document[f"{HP}out"].textContent = val
-    personagem.dados[HP] = val
+# --- Event Listeners Inputs Texto ---
 
 @bind(document[NOME], "change")
 def changenome(ev):
@@ -208,9 +266,7 @@ def changeraca(ev):
 def changedescricao(ev):
     personagem.dados[DESCRICAO] = document[DESCRICAO].value
 
-@bind(document['armadano'], "input")
-def changedanoarma(ev):
-    document['armadanoout'].textContent = ev.target.value
+# --- Actions ---
 
 @bind(document['addarma'], "click")
 def addarma(ev):
@@ -218,13 +274,13 @@ def addarma(ev):
     dano_arma = document['armadano'].value
     
     if not nome_arma:
-        show_notification('O nome da arma não pode estar vazio.', 'is-warning')
+        show_notification('Digite o nome da arma.', 'is-warning')
         return
         
     personagem.dados[ARMAS][nome_arma] = dano_arma
-    document['armanome'].value = ''  # Limpa input
+    document['armanome'].value = ''
     update_armas()
-    show_notification(f'Arma "{nome_arma}" adicionada!', 'is-success')
+    show_notification('Arma adicionada!', 'is-success')
 
 def remover_arma(nome_arma):
     if nome_arma in personagem.dados[ARMAS]:
@@ -233,58 +289,44 @@ def remover_arma(nome_arma):
 
 @bind(document['deletar'], "click")
 def deletar(ev):
-    # Simples confirmacao via browser nativo por seguranca, ou poderia ser modal customizado
-    if window.confirm("Tem certeza que deseja apagar o personagem?"):
+    if window.confirm("Apagar tudo?"):
         personagem.deletar()
         update_formulario_personagem()
-        show_notification('Personagem apagado com sucesso!', 'is-success')
+        show_notification('Resetado!', 'is-success')
 
 @bind(document['salvar'], "click")
 def salvar(ev):
     personagem.calc_pontos_restantes()
-    
-    if personagem.pontos_restantes > 0:
-        show_notification(f'Ainda faltam distribuir {personagem.pontos_restantes} pontos.', 'is-warning')
-    elif personagem.pontos_restantes < 0:
-        show_notification('Você ultrapassou o limite de 50 pontos!', 'is-danger')
+    if personagem.pontos_restantes < 0:
+        show_notification('Limite de pontos excedido!', 'is-danger')
     else:
         personagem.salvar()
-        show_notification('Personagem salvo com sucesso!', 'is-success')
+        show_notification('Salvo!', 'is-success')
 
 @bind(document['rolar'], "click")
 def rolar(ev):
     caracter_name = document['caracter'].value
-    
-    # Mapeamento de nome amigavel para chave interna
     mapa_atributos = {
-        'Inteligência': INTELIGENCIA,
-        'Força': FORCA,
-        'Destreza': DESTREZA,
-        'Carisma': CARISMA,
-        'Constituição': CONSTITUICAO
+        'Inteligência': INTELIGENCIA, 'Força': FORCA, 'Destreza': DESTREZA,
+        'Carisma': CARISMA, 'Constituição': CONSTITUICAO
     }
     
     chave_attr = mapa_atributos.get(caracter_name)
-    if not chave_attr:
-        return
+    if not chave_attr: return
 
     valor_atributo = personagem.dados[chave_attr]
     dado = random.randint(1, 20)
-    
-    # Logica original mantida: resultado = atributo - (20 - dado)
-    # Se dado = 20, resultado = atributo. Se dado = 1, resultado = atributo - 19.
     resultado = valor_atributo - (20 - dado)
-    
     diferenca = abs(resultado * personagem.dados[NIVEL])
     
     msg = ""
     tipo = ""
     
     if resultado > 0:
-        msg = f'SUCESSO! (Dado: {dado})\nSaldo: {diferenca}'
+        msg = f'SUCESSO! (Dado: {dado}) Saldo: {diferenca}'
         tipo = 'is-success'
     elif resultado < 0:
-        msg = f'FALHA! (Dado: {dado})\nDébito: {diferenca}'
+        msg = f'FALHA! (Dado: {dado}) Dano: {diferenca}'
         tipo = 'is-danger'
     else:
         msg = f'NEUTRO (Dado: {dado})'

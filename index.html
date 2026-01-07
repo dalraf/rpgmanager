@@ -4,226 +4,394 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>RPG Manager</title>
     <link rel="icon" href="icon.png" type="image/icon type">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
     <link rel="manifest" href="./manifest.json">
     <style>
-        .slider-output {
-            font-weight: bold;
-            display: inline-block;
-            width: 30px;
-            text-align: right;
+        /* Mobile Improvements */
+        body {
+            padding-bottom: 70px; /* Espaço para navbar inferior se fosse usada, ou geral */
+            overscroll-behavior-y: none; /* Evita "bounce" effect no mobile */
         }
-        .section-header {
-            margin-bottom: 1.5rem;
-            padding: 1rem;
-            border-radius: 4px;
+
+        /* Sticky Header para Pontos */
+        .sticky-points {
+            position: sticky;
+            top: 0;
+            z-index: 30;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        /* Stepper Controls */
+        .stepper-control {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            background: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .stepper-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            width: 50px;
+            text-align: center;
+        }
+        .button.is-stepper {
+            height: 44px; /* Minimo recomendado para touch */
+            width: 44px;
+            border-radius: 50%;
+        }
+
+        /* Tabs Navigation */
+        .main-tabs {
+            margin-bottom: 1rem !important;
+        }
+        .main-tabs ul {
+            border-bottom-color: #dbdbdb;
+        }
+        .main-tabs li.is-active a {
+            border-bottom-color: #3273dc;
+            color: #3273dc;
+            font-weight: bold;
+        }
+        
+        /* Area de Conteudo das Abas */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+        .tab-content.is-active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Ajustes de Tabela Mobile */
+        .table-mobile-cards tr {
+            display: flex;
+            flex-direction: column;
+            background: white;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border: 1px solid #eee;
+        }
+        .table-mobile-cards thead {
+            display: none;
+        }
+        .table-mobile-cards td {
+            border: none;
+            padding: 5px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .table-mobile-cards td:before {
+            content: attr(data-label);
+            font-weight: bold;
+            color: #666;
+            margin-right: 10px;
+        }
+
+        /* Floating Action Button for Save */
+        .fab-save {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #48c774;
+            color: white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            z-index: 40;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .fab-save:active {
+            transform: scale(0.95);
         }
     </style>
 </head>
 
 <body onload="brython({debug: 1, indexedDB: false})">
-    <section class="section">
+
+    <!-- Sticky Points Header (Visível apenas na aba de atributos ou global) -->
+    <div id="header-pontos" class="sticky-points level is-mobile">
+        <div class="level-left">
+            <span class="icon is-medium has-text-info">
+                <i class="fas fa-chart-pie fa-lg"></i>
+            </span>
+            <span class="has-text-weight-bold ml-2">Pontos</span>
+        </div>
+        <div class="level-right">
+            <span id="somapontos" class="tag is-medium is-success">Calculando...</span>
+        </div>
+    </div>
+
+    <section class="section" style="padding-top: 1rem;">
         <div class="container">
-            <h1 class="title has-text-centered is-2">Gerenciador de Personagem</h1>
             
-            <div class="columns is-multiline">
-                
-                <!-- Coluna Esquerda: Dados Principais -->
-                <div class="column is-half">
-                    <div class="box">
-                        <div class="has-background-grey-lighter section-header">
-                            <h2 class="subtitle is-5"><b><i class="fas fa-user"></i> DADOS DO PERSONAGEM</b></h2>
-                        </div>
-
-                        <div class="field is-horizontal">
-                            <div class="field-label is-normal">
-                                <label class="label">Nome</label>
-                            </div>
-                            <div class="field-body">
-                                <div class="field">
-                                    <div class="control">
-                                        <input type="text" name="nome" id="nome" class="input" placeholder="Nome do personagem">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="field is-horizontal">
-                            <div class="field-label is-normal">
-                                <label class="label">Raça</label>
-                            </div>
-                            <div class="field-body">
-                                <div class="field">
-                                    <div class="control">
-                                        <input type="text" name="raca" id="raca" class="input" placeholder="Raça do personagem">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="field">
-                            <label class="label">Descrição</label>
-                            <div class="control">
-                                <textarea id="descricao" class="textarea" placeholder="Descrição e histórico do personagem"></textarea>
-                            </div>
-                        </div>
-
-                        <hr>
-
-                        <div class="field">
-                            <label class="label">Nível <span id="nivelout" class="tag is-info ml-2">1</span></label>
-                            <div class="control">
-                                <input id="nivel" class="slider is-fullwidth is-info" step="1" min="1" max="15" value="1" type="range">
-                            </div>
-                        </div>
-
-                        <div class="field">
-                            <label class="label">HP <span id="hpout" class="tag is-danger ml-2">50</span></label>
-                            <div class="control">
-                                <input id="hp" class="slider is-fullwidth is-danger" step="1" min="1" max="50" value="50" type="range">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Coluna Direita: Atributos e Rolagem -->
-                <div class="column is-half">
-                    
-                    <!-- Rolagem de Dados -->
-                    <div class="box has-background-info-light">
-                        <h2 class="subtitle is-5"><b><i class="fas fa-dice-d20"></i> ROLAR TESTE</b></h2>
-                        <div class="field has-addons">
-                            <div class="control is-expanded">
-                                <div class="select is-fullwidth">
-                                    <select id='caracter'>
-                                        <option>Inteligência</option>
-                                        <option>Força</option>
-                                        <option>Destreza</option>
-                                        <option>Carisma</option>
-                                        <option>Constituição</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="control">
-                                <button id="rolar" class="button is-info">
-                                    <span class="icon">
-                                        <i class="fas fa-dice"></i>
-                                    </span>
-                                    <span>Rolar</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Distribuição de Pontos -->
-                    <div class="box">
-                        <div class="level mobile-level">
-                            <div class="level-left">
-                                <div class="level-item">
-                                    <h2 class="subtitle is-5"><b>ATRIBUTOS</b></h2>
-                                </div>
-                            </div>
-                            <div class="level-right">
-                                <div class="level-item">
-                                    <span id='somapontos' class="tag is-medium">Calculando...</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Loop de sliders de atributos -->
-                        <div class="field">
-                            <label class="label">Inteligência <span id="inteligenciaout" class="slider-output">8</span></label>
-                            <input id="inteligencia" class="slider is-fullwidth is-circle" step="1" min="6" max="15" value="8" type="range">
-                        </div>
-                        <div class="field">
-                            <label class="label">Força <span id="forcaout" class="slider-output">8</span></label>
-                            <input id="forca" class="slider is-fullwidth is-circle" step="1" min="6" max="15" value="8" type="range">
-                        </div>
-                        <div class="field">
-                            <label class="label">Destreza <span id="destrezaout" class="slider-output">8</span></label>
-                            <input id="destreza" class="slider is-fullwidth is-circle" step="1" min="6" max="15" value="8" type="range">
-                        </div>
-                        <div class="field">
-                            <label class="label">Carisma <span id="carismaout" class="slider-output">8</span></label>
-                            <input id="carisma" class="slider is-fullwidth is-circle" step="1" min="6" max="15" value="8" type="range">
-                        </div>
-                        <div class="field">
-                            <label class="label">Constituição <span id="constituicaoout" class="slider-output">8</span></label>
-                            <input id="constituicao" class="slider is-fullwidth is-circle" step="1" min="6" max="15" value="8" type="range">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Seção Inferior: Armas -->
-                <div class="column is-full">
-                    <div class="box">
-                        <div class="has-background-grey-lighter section-header">
-                            <h2 class="subtitle is-5"><b><i class="fas fa-fist-raised"></i> ARMAS E EQUIPAMENTOS</b></h2>
-                        </div>
-                        
-                        <div class="columns is-vcentered">
-                            <div class="column is-5">
-                                <div class="field">
-                                    <label class="label">Nome da Arma</label>
-                                    <div class="control">
-                                        <input type="text" id="armanome" class="input" placeholder="Ex: Espada Longa">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="column is-5">
-                                <div class="field">
-                                    <label class="label">Dano/Defesa: <span id="armadanoout">1</span></label>
-                                    <div class="control">
-                                        <input id="armadano" class="slider is-fullwidth is-danger" step="1" min="1" max="15" value="1" type="range">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="column is-2">
-                                <label class="label">&nbsp;</label>
-                                <button id="addarma" class="button is-primary is-fullwidth">
-                                    <span class="icon"><i class="fas fa-plus"></i></span>
-                                    <span>Adicionar</span>
-                                </button>
-                            </div>
-                        </div>
-
-                        <table class="table is-striped is-hoverable is-fullwidth">
-                            <thead>
-                                <tr>
-                                    <th>Nome</th>
-                                    <th>Poder (Dano/Defesa)</th>
-                                    <th style="width: 100px;">Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody id="listaarmas">
-                                <!-- Preenchido via Python -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- Botões de Ação -->
-                <div class="column is-full">
-                    <div class="buttons is-right">
-                        <button id="deletar" class="button is-danger is-outlined">
-                            <span class="icon"><i class="fas fa-trash-alt"></i></span>
-                            <span>Apagar Personagem</span>
-                        </button>
-                        <button id="salvar" class="button is-success is-large">
-                            <span class="icon"><i class="fas fa-save"></i></span>
-                            <span>Salvar Ficha</span>
-                        </button>
-                    </div>
-                </div>
-
+            <!-- Tabs Navigation -->
+            <div class="tabs is-centered is-boxed is-fullwidth main-tabs">
+                <ul>
+                    <li id="tab-btn-perfil" class="is-active">
+                        <a>
+                            <span class="icon is-small"><i class="fas fa-user"></i></span>
+                            <span>Perfil</span>
+                        </a>
+                    </li>
+                    <li id="tab-btn-atributos">
+                        <a>
+                            <span class="icon is-small"><i class="fas fa-sliders-h"></i></span>
+                            <span>Atributos</span>
+                        </a>
+                    </li>
+                    <li id="tab-btn-combate">
+                        <a>
+                            <span class="icon is-small"><i class="fas fa-skull"></i></span>
+                            <span>Combate</span>
+                        </a>
+                    </li>
+                </ul>
             </div>
+
+            <!-- TAB 1: PERFIL -->
+            <div id="view-perfil" class="tab-content is-active">
+                <div class="field">
+                    <label class="label">Nome</label>
+                    <div class="control">
+                        <input type="text" id="nome" class="input is-medium" placeholder="Nome do herói">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Raça</label>
+                    <div class="control">
+                        <input type="text" id="raca" class="input is-medium" placeholder="Humano, Elfo...">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Descrição</label>
+                    <div class="control">
+                        <textarea id="descricao" class="textarea" rows="3" placeholder="Histórico..."></textarea>
+                    </div>
+                </div>
+
+                <hr>
+
+                <!-- Nivel Stepper -->
+                <div class="field">
+                    <label class="label">Nível</label>
+                    <div class="stepper-control">
+                        <button class="button is-info is-outlined is-stepper" id="btn-minus-nivel">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <span id="nivelout" class="stepper-value">1</span>
+                        <button class="button is-info is-stepper" id="btn-plus-nivel">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                    <!-- Hidden input to store value compatible with logic -->
+                    <input id="nivel" type="hidden" value="1">
+                </div>
+
+                <!-- HP Stepper -->
+                <div class="field">
+                    <label class="label">Pontos de Vida (HP)</label>
+                    <div class="stepper-control">
+                        <button class="button is-danger is-outlined is-stepper" id="btn-minus-hp">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <span id="hpout" class="stepper-value has-text-danger">50</span>
+                        <button class="button is-danger is-stepper" id="btn-plus-hp">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                    <input id="hp" type="hidden" value="50">
+                </div>
+                
+                <br><br>
+                <button id="deletar" class="button is-danger is-outlined is-fullwidth mt-4">
+                    <span class="icon"><i class="fas fa-trash-alt"></i></span>
+                    <span>Apagar Personagem</span>
+                </button>
+                <br><br>
+            </div>
+
+            <!-- TAB 2: ATRIBUTOS -->
+            <div id="view-atributos" class="tab-content">
+                <div class="notification is-info is-light is-small mb-4">
+                    <i class="fas fa-info-circle"></i> Ajuste seus atributos. O saldo de pontos está no topo.
+                </div>
+
+                <!-- Loop de Atributos será gerado visualmente aqui -->
+                
+                <!-- Template para cada atributo (repetido via estrutura, mas hardcoded para clareza) -->
+                <div class="field">
+                    <label class="label">Força</label>
+                    <div class="stepper-control">
+                        <button class="button is-link is-light is-stepper" id="btn-minus-forca">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <span id="forcaout" class="stepper-value">8</span>
+                        <button class="button is-link is-stepper" id="btn-plus-forca">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                    <input id="forca" type="hidden" value="8">
+                </div>
+
+                <div class="field">
+                    <label class="label">Inteligência</label>
+                    <div class="stepper-control">
+                        <button class="button is-link is-light is-stepper" id="btn-minus-inteligencia">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <span id="inteligenciaout" class="stepper-value">8</span>
+                        <button class="button is-link is-stepper" id="btn-plus-inteligencia">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                    <input id="inteligencia" type="hidden" value="8">
+                </div>
+
+                <div class="field">
+                    <label class="label">Destreza</label>
+                    <div class="stepper-control">
+                        <button class="button is-link is-light is-stepper" id="btn-minus-destreza">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <span id="destrezaout" class="stepper-value">8</span>
+                        <button class="button is-link is-stepper" id="btn-plus-destreza">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                    <input id="destreza" type="hidden" value="8">
+                </div>
+
+                <div class="field">
+                    <label class="label">Constituição</label>
+                    <div class="stepper-control">
+                        <button class="button is-link is-light is-stepper" id="btn-minus-constituicao">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <span id="constituicaoout" class="stepper-value">8</span>
+                        <button class="button is-link is-stepper" id="btn-plus-constituicao">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                    <input id="constituicao" type="hidden" value="8">
+                </div>
+
+                <div class="field">
+                    <label class="label">Carisma</label>
+                    <div class="stepper-control">
+                        <button class="button is-link is-light is-stepper" id="btn-minus-carisma">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <span id="carismaout" class="stepper-value">8</span>
+                        <button class="button is-link is-stepper" id="btn-plus-carisma">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                    <input id="carisma" type="hidden" value="8">
+                </div>
+                <br><br>
+            </div>
+
+            <!-- TAB 3: COMBATE E EQUIPAMENTOS -->
+            <div id="view-combate" class="tab-content">
+                
+                <!-- Seção de Rolagem -->
+                <div class="box has-background-white-ter">
+                    <h3 class="title is-5"><i class="fas fa-dice"></i> Rolar Teste</h3>
+                    <div class="field has-addons">
+                        <div class="control is-expanded">
+                            <div class="select is-fullwidth is-medium">
+                                <select id='caracter'>
+                                    <option>Força</option>
+                                    <option>Destreza</option>
+                                    <option>Inteligência</option>
+                                    <option>Constituição</option>
+                                    <option>Carisma</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="control">
+                            <button id="rolar" class="button is-info is-medium">
+                                <i class="fas fa-dice-d20"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+
+                <!-- Seção de Armas -->
+                <h3 class="title is-5">Equipamentos</h3>
+                
+                <div class="box">
+                    <div class="field">
+                        <label class="label">Nova Arma</label>
+                        <div class="control">
+                            <input type="text" id="armanome" class="input" placeholder="Nome...">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Poder (Dano/Defesa)</label>
+                        <div class="stepper-control">
+                            <button class="button is-small" id="btn-minus-arma">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <span id="armadanoout" class="stepper-value is-size-4">1</span>
+                            <button class="button is-small" id="btn-plus-arma">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                        <input id="armadano" type="hidden" value="1">
+                    </div>
+                    <button id="addarma" class="button is-primary is-fullwidth">Adicionar</button>
+                </div>
+
+                <div class="content">
+                    <table class="table is-fullwidth table-mobile-cards">
+                        <tbody id="listaarmas">
+                            <!-- JS Populates this -->
+                        </tbody>
+                    </table>
+                </div>
+                <br><br>
+            </div>
+
         </div>
     </section>
+
+    <!-- FAB Save Button -->
+    <button id="salvar" class="fab-save" title="Salvar">
+        <i class="fas fa-save"></i>
+    </button>
 
     <!-- Scripts -->
     <script type="text/python">
