@@ -5,171 +5,252 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>RPG Manager</title>
+    <title>RPG Manager - Dark Edition</title>
     <link rel="icon" href="icon.png" type="image/icon type">
+    
+    <!-- Bulma CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    
+    <!-- Icons -->
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    
+    <!-- Google Fonts: MedievalSharp for Titles, Lato for body -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=MedievalSharp&display=swap" rel="stylesheet">
+
     <link rel="manifest" href="./manifest.json">
     <style>
-        /* Mobile Improvements */
-        body {
-            padding-bottom: 70px; /* Espaço para navbar inferior se fosse usada, ou geral */
-            overscroll-behavior-y: none; /* Evita "bounce" effect no mobile */
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-main: #e0e0e0;
+            --text-muted: #a0a0a0;
+            --gold-accent: #ffb74d; /* Dourado RPG */
+            --gold-dark: #c88719;
+            --danger-rpg: #cf6679;
+            --success-rpg: #81c784;
+            --input-bg: #2d2d2d;
+            --border-color: #333;
         }
 
-        /* Sticky Header para Pontos */
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Lato', sans-serif;
+            padding-bottom: 80px;
+            overscroll-behavior-y: none;
+        }
+
+        /* Tipografia RPG */
+        h1, h2, h3, .title, .subtitle, .label-rpg {
+            font-family: 'MedievalSharp', cursive;
+            color: var(--gold-accent) !important;
+            letter-spacing: 0.5px;
+        }
+
+        /* Overrides Bulma Dark Mode */
+        .box, .card, .modal-card-body {
+            background-color: var(--card-bg);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+
+        .label {
+            color: var(--text-muted);
+        }
+
+        .input, .textarea, .select select {
+            background-color: var(--input-bg);
+            border-color: var(--border-color);
+            color: var(--text-main);
+        }
+        .input:focus, .textarea:focus, .select select:focus {
+            border-color: var(--gold-accent);
+            box-shadow: 0 0 0 0.125em rgba(255, 183, 77, 0.25);
+        }
+        .input::placeholder, .textarea::placeholder {
+            color: #555;
+        }
+
+        /* Sticky Header */
         .sticky-points {
             position: sticky;
             top: 0;
             z-index: 30;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            background: rgba(30, 30, 30, 0.95);
+            backdrop-filter: blur(5px);
             padding: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-bottom: 2px solid var(--gold-dark);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
             margin-bottom: 1rem;
-            border-bottom: 1px solid #eee;
         }
 
-        /* Stepper Controls */
+        /* Tabs RPG Style */
+        .tabs {
+            margin-bottom: 1rem !important;
+            background-color: transparent;
+        }
+        .tabs ul {
+            border-bottom-color: var(--border-color);
+        }
+        .tabs a {
+            color: var(--text-muted);
+            border-bottom-color: transparent;
+            transition: all 0.3s;
+        }
+        .tabs li.is-active a {
+            color: var(--gold-accent);
+            border-bottom-color: var(--gold-accent);
+            text-shadow: 0 0 5px rgba(255, 183, 77, 0.3);
+        }
+        .tabs a:hover {
+            color: var(--gold-accent);
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Steppers Dark */
         .stepper-control {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 1rem;
-            background: #fff;
-            padding: 10px;
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
             border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            padding: 8px;
         }
         .stepper-value {
-            font-size: 1.5rem;
-            font-weight: bold;
-            width: 50px;
-            text-align: center;
+            color: var(--gold-accent);
+            font-family: 'MedievalSharp', cursive;
+            font-size: 1.8rem;
         }
         .button.is-stepper {
-            height: 44px; /* Minimo recomendado para touch */
-            width: 44px;
-            border-radius: 50%;
+            background-color: #333;
+            border-color: #444;
+            color: #fff;
+        }
+        .button.is-stepper:active {
+            border-color: var(--gold-accent);
         }
 
-        /* Tabs Navigation */
-        .main-tabs {
-            margin-bottom: 1rem !important;
-        }
-        .main-tabs ul {
-            border-bottom-color: #dbdbdb;
-        }
-        .main-tabs li.is-active a {
-            border-bottom-color: #3273dc;
-            color: #3273dc;
+        /* Buttons RPG */
+        .button.is-primary {
+            background-color: var(--gold-dark);
+            color: #121212;
             font-weight: bold;
+            border: none;
         }
-        
-        /* Area de Conteudo das Abas */
+        .button.is-info {
+            background-color: #4a6fa5;
+        }
+        .button.is-danger {
+            background-color: #b71c1c;
+        }
+
+        /* Tabela Mobile */
+        .table-mobile-cards tr {
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            margin-bottom: 12px;
+        }
+        .table-mobile-cards td {
+            color: var(--text-main);
+            border-bottom: 1px solid #333;
+        }
+        .table-mobile-cards td:last-child {
+            border-bottom: none;
+        }
+        .table-mobile-cards td:before {
+            color: var(--gold-accent);
+            font-family: 'MedievalSharp', cursive;
+        }
+
+        /* FAB Save */
+        .fab-save {
+            background: linear-gradient(145deg, var(--gold-accent), var(--gold-dark));
+            color: #121212;
+            border: 2px solid #fff;
+            box-shadow: 0 0 15px rgba(255, 183, 77, 0.4);
+        }
+
+        /* Animations */
         .tab-content {
             display: none;
-            animation: fadeIn 0.3s;
+            animation: fadeIn 0.4s ease-out;
         }
         .tab-content.is-active {
             display: block;
         }
-
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Ajustes de Tabela Mobile */
-        .table-mobile-cards tr {
-            display: flex;
-            flex-direction: column;
-            background: white;
-            margin-bottom: 10px;
-            padding: 10px;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            border: 1px solid #eee;
+        /* Scrollbar custom (Chrome/Safari) */
+        ::-webkit-scrollbar {
+            width: 8px;
         }
-        .table-mobile-cards thead {
-            display: none;
+        ::-webkit-scrollbar-track {
+            background: var(--bg-color);
         }
-        .table-mobile-cards td {
-            border: none;
-            padding: 5px 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        ::-webkit-scrollbar-thumb {
+            background: #444;
+            border-radius: 4px;
         }
-        .table-mobile-cards td:before {
-            content: attr(data-label);
-            font-weight: bold;
-            color: #666;
-            margin-right: 10px;
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gold-dark);
         }
-
-        /* Floating Action Button for Save */
-        .fab-save {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background-color: #48c774;
-            color: white;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            z-index: 40;
-            border: none;
-            cursor: pointer;
-            transition: transform 0.2s;
+        
+        /* Dropdown fix */
+        .select select option {
+            background-color: var(--input-bg);
+            color: var(--text-main);
         }
-        .fab-save:active {
-            transform: scale(0.95);
+        
+        hr {
+            background-color: var(--border-color);
+            height: 1px;
         }
     </style>
 </head>
 
 <body onload="brython({debug: 1, indexedDB: false})">
 
-    <!-- Sticky Points Header (Visível apenas na aba de atributos ou global) -->
+    <!-- Sticky Points Header -->
     <div id="header-pontos" class="sticky-points level is-mobile">
         <div class="level-left">
-            <span class="icon is-medium has-text-info">
-                <i class="fas fa-chart-pie fa-lg"></i>
+            <span class="icon is-medium has-text-warning">
+                <i class="fas fa-scroll fa-lg"></i>
             </span>
-            <span class="has-text-weight-bold ml-2">Pontos</span>
+            <span class="ml-2 is-size-5" style="font-family: 'MedievalSharp', cursive; color: var(--gold-accent);">Pontos</span>
         </div>
         <div class="level-right">
-            <span id="somapontos" class="tag is-medium is-success">Calculando...</span>
+            <span id="somapontos" class="tag is-medium is-black" style="border: 1px solid var(--gold-accent); color: var(--gold-accent);">Calculando...</span>
         </div>
     </div>
 
-    <section class="section" style="padding-top: 1rem;">
+    <section class="section" style="padding-top: 0.5rem;">
         <div class="container">
             
+            <h1 class="title has-text-centered mb-4 is-3">Grimório do Jogador</h1>
+
             <!-- Tabs Navigation -->
             <div class="tabs is-centered is-boxed is-fullwidth main-tabs">
                 <ul>
                     <li id="tab-btn-perfil" class="is-active">
                         <a>
-                            <span class="icon is-small"><i class="fas fa-user"></i></span>
-                            <span>Perfil</span>
+                            <span class="icon is-small"><i class="fas fa-dungeon"></i></span>
+                            <span>Herói</span>
                         </a>
                     </li>
                     <li id="tab-btn-atributos">
                         <a>
-                            <span class="icon is-small"><i class="fas fa-sliders-h"></i></span>
+                            <span class="icon is-small"><i class="fas fa-hand-sparkles"></i></span>
                             <span>Atributos</span>
                         </a>
                     </li>
                     <li id="tab-btn-combate">
                         <a>
-                            <span class="icon is-small"><i class="fas fa-skull"></i></span>
+                            <span class="icon is-small"><i class="fas fa-khanda"></i></span>
                             <span>Combate</span>
                         </a>
                     </li>
@@ -178,145 +259,131 @@
 
             <!-- TAB 1: PERFIL -->
             <div id="view-perfil" class="tab-content is-active">
-                <div class="field">
-                    <label class="label">Nome</label>
-                    <div class="control">
-                        <input type="text" id="nome" class="input is-medium" placeholder="Nome do herói">
+                <div class="box">
+                    <div class="field">
+                        <label class="label">Nome do Herói</label>
+                        <div class="control has-icons-left">
+                            <input type="text" id="nome" class="input is-medium" placeholder="Ex: Gandalf, o Cinzento">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-user-hooded"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">Raça / Linhagem</label>
+                        <div class="control has-icons-left">
+                            <input type="text" id="raca" class="input is-medium" placeholder="Ex: Elfo da Floresta">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-dna"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">Lenda (História)</label>
+                        <div class="control">
+                            <textarea id="descricao" class="textarea" rows="3" placeholder="Escreva aqui os feitos do seu personagem..."></textarea>
+                        </div>
                     </div>
                 </div>
 
-                <div class="field">
-                    <label class="label">Raça</label>
-                    <div class="control">
-                        <input type="text" id="raca" class="input is-medium" placeholder="Humano, Elfo...">
+                <div class="box">
+                    <!-- Nivel Stepper -->
+                    <div class="field">
+                        <label class="label">Nível de Poder</label>
+                        <div class="stepper-control">
+                            <button class="button is-stepper" id="btn-minus-nivel">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <span id="nivelout" class="stepper-value">1</span>
+                            <button class="button is-stepper" id="btn-plus-nivel">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                        <input id="nivel" type="hidden" value="1">
                     </div>
-                </div>
 
-                <div class="field">
-                    <label class="label">Descrição</label>
-                    <div class="control">
-                        <textarea id="descricao" class="textarea" rows="3" placeholder="Histórico..."></textarea>
+                    <!-- HP Stepper -->
+                    <div class="field">
+                        <label class="label">Pontos de Vida (HP)</label>
+                        <div class="stepper-control" style="border-color: #8b0000;">
+                            <button class="button is-danger is-outlined is-small" id="btn-minus-hp">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <span id="hpout" class="stepper-value has-text-danger">50</span>
+                            <button class="button is-danger is-small" id="btn-plus-hp">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                        <input id="hp" type="hidden" value="50">
                     </div>
-                </div>
-
-                <hr>
-
-                <!-- Nivel Stepper -->
-                <div class="field">
-                    <label class="label">Nível</label>
-                    <div class="stepper-control">
-                        <button class="button is-info is-outlined is-stepper" id="btn-minus-nivel">
-                            <i class="fas fa-minus"></i>
-                        </button>
-                        <span id="nivelout" class="stepper-value">1</span>
-                        <button class="button is-info is-stepper" id="btn-plus-nivel">
-                            <i class="fas fa-plus"></i>
-                        </button>
-                    </div>
-                    <!-- Hidden input to store value compatible with logic -->
-                    <input id="nivel" type="hidden" value="1">
-                </div>
-
-                <!-- HP Stepper -->
-                <div class="field">
-                    <label class="label">Pontos de Vida (HP)</label>
-                    <div class="stepper-control">
-                        <button class="button is-danger is-outlined is-stepper" id="btn-minus-hp">
-                            <i class="fas fa-minus"></i>
-                        </button>
-                        <span id="hpout" class="stepper-value has-text-danger">50</span>
-                        <button class="button is-danger is-stepper" id="btn-plus-hp">
-                            <i class="fas fa-plus"></i>
-                        </button>
-                    </div>
-                    <input id="hp" type="hidden" value="50">
                 </div>
                 
-                <br><br>
                 <button id="deletar" class="button is-danger is-outlined is-fullwidth mt-4">
-                    <span class="icon"><i class="fas fa-trash-alt"></i></span>
-                    <span>Apagar Personagem</span>
+                    <span class="icon"><i class="fas fa-skull"></i></span>
+                    <span>Condenar ao Esquecimento (Apagar)</span>
                 </button>
                 <br><br>
             </div>
 
             <!-- TAB 2: ATRIBUTOS -->
             <div id="view-atributos" class="tab-content">
-                <div class="notification is-info is-light is-small mb-4">
-                    <i class="fas fa-info-circle"></i> Ajuste seus atributos. O saldo de pontos está no topo.
+                <div class="notification is-warning is-light is-small mb-4" style="background-color: #332b00; color: #ffdb8f; border: 1px solid #665700;">
+                    <i class="fas fa-scroll"></i> Distribua sabiamente. O destino é implacável.
                 </div>
 
-                <!-- Loop de Atributos será gerado visualmente aqui -->
-                
-                <!-- Template para cada atributo (repetido via estrutura, mas hardcoded para clareza) -->
-                <div class="field">
-                    <label class="label">Força</label>
-                    <div class="stepper-control">
-                        <button class="button is-link is-light is-stepper" id="btn-minus-forca">
-                            <i class="fas fa-minus"></i>
-                        </button>
-                        <span id="forcaout" class="stepper-value">8</span>
-                        <button class="button is-link is-stepper" id="btn-plus-forca">
-                            <i class="fas fa-plus"></i>
-                        </button>
+                <div class="box">
+                    <!-- Templates -->
+                    <div class="field">
+                        <label class="label"><i class="fas fa-fist-raised mr-1"></i> Força</label>
+                        <div class="stepper-control">
+                            <button class="button is-stepper" id="btn-minus-forca"><i class="fas fa-minus"></i></button>
+                            <span id="forcaout" class="stepper-value">8</span>
+                            <button class="button is-stepper" id="btn-plus-forca"><i class="fas fa-plus"></i></button>
+                        </div>
+                        <input id="forca" type="hidden" value="8">
                     </div>
-                    <input id="forca" type="hidden" value="8">
-                </div>
 
-                <div class="field">
-                    <label class="label">Inteligência</label>
-                    <div class="stepper-control">
-                        <button class="button is-link is-light is-stepper" id="btn-minus-inteligencia">
-                            <i class="fas fa-minus"></i>
-                        </button>
-                        <span id="inteligenciaout" class="stepper-value">8</span>
-                        <button class="button is-link is-stepper" id="btn-plus-inteligencia">
-                            <i class="fas fa-plus"></i>
-                        </button>
+                    <div class="field">
+                        <label class="label"><i class="fas fa-brain mr-1"></i> Inteligência</label>
+                        <div class="stepper-control">
+                            <button class="button is-stepper" id="btn-minus-inteligencia"><i class="fas fa-minus"></i></button>
+                            <span id="inteligenciaout" class="stepper-value">8</span>
+                            <button class="button is-stepper" id="btn-plus-inteligencia"><i class="fas fa-plus"></i></button>
+                        </div>
+                        <input id="inteligencia" type="hidden" value="8">
                     </div>
-                    <input id="inteligencia" type="hidden" value="8">
-                </div>
 
-                <div class="field">
-                    <label class="label">Destreza</label>
-                    <div class="stepper-control">
-                        <button class="button is-link is-light is-stepper" id="btn-minus-destreza">
-                            <i class="fas fa-minus"></i>
-                        </button>
-                        <span id="destrezaout" class="stepper-value">8</span>
-                        <button class="button is-link is-stepper" id="btn-plus-destreza">
-                            <i class="fas fa-plus"></i>
-                        </button>
+                    <div class="field">
+                        <label class="label"><i class="fas fa-running mr-1"></i> Destreza</label>
+                        <div class="stepper-control">
+                            <button class="button is-stepper" id="btn-minus-destreza"><i class="fas fa-minus"></i></button>
+                            <span id="destrezaout" class="stepper-value">8</span>
+                            <button class="button is-stepper" id="btn-plus-destreza"><i class="fas fa-plus"></i></button>
+                        </div>
+                        <input id="destreza" type="hidden" value="8">
                     </div>
-                    <input id="destreza" type="hidden" value="8">
-                </div>
 
-                <div class="field">
-                    <label class="label">Constituição</label>
-                    <div class="stepper-control">
-                        <button class="button is-link is-light is-stepper" id="btn-minus-constituicao">
-                            <i class="fas fa-minus"></i>
-                        </button>
-                        <span id="constituicaoout" class="stepper-value">8</span>
-                        <button class="button is-link is-stepper" id="btn-plus-constituicao">
-                            <i class="fas fa-plus"></i>
-                        </button>
+                    <div class="field">
+                        <label class="label"><i class="fas fa-shield-alt mr-1"></i> Constituição</label>
+                        <div class="stepper-control">
+                            <button class="button is-stepper" id="btn-minus-constituicao"><i class="fas fa-minus"></i></button>
+                            <span id="constituicaoout" class="stepper-value">8</span>
+                            <button class="button is-stepper" id="btn-plus-constituicao"><i class="fas fa-plus"></i></button>
+                        </div>
+                        <input id="constituicao" type="hidden" value="8">
                     </div>
-                    <input id="constituicao" type="hidden" value="8">
-                </div>
 
-                <div class="field">
-                    <label class="label">Carisma</label>
-                    <div class="stepper-control">
-                        <button class="button is-link is-light is-stepper" id="btn-minus-carisma">
-                            <i class="fas fa-minus"></i>
-                        </button>
-                        <span id="carismaout" class="stepper-value">8</span>
-                        <button class="button is-link is-stepper" id="btn-plus-carisma">
-                            <i class="fas fa-plus"></i>
-                        </button>
+                    <div class="field">
+                        <label class="label"><i class="fas fa-theater-masks mr-1"></i> Carisma</label>
+                        <div class="stepper-control">
+                            <button class="button is-stepper" id="btn-minus-carisma"><i class="fas fa-minus"></i></button>
+                            <span id="carismaout" class="stepper-value">8</span>
+                            <button class="button is-stepper" id="btn-plus-carisma"><i class="fas fa-plus"></i></button>
+                        </div>
+                        <input id="carisma" type="hidden" value="8">
                     </div>
-                    <input id="carisma" type="hidden" value="8">
                 </div>
                 <br><br>
             </div>
@@ -325,8 +392,8 @@
             <div id="view-combate" class="tab-content">
                 
                 <!-- Seção de Rolagem -->
-                <div class="box has-background-white-ter">
-                    <h3 class="title is-5"><i class="fas fa-dice"></i> Rolar Teste</h3>
+                <div class="box" style="border: 1px solid var(--gold-dark);">
+                    <h3 class="title is-5"><i class="fas fa-dice-d20"></i> Teste de Perícia</h3>
                     <div class="field has-addons">
                         <div class="control is-expanded">
                             <div class="select is-fullwidth is-medium">
@@ -340,43 +407,45 @@
                             </div>
                         </div>
                         <div class="control">
-                            <button id="rolar" class="button is-info is-medium">
-                                <i class="fas fa-dice-d20"></i>
+                            <button id="rolar" class="button is-primary is-medium">
+                                <span class="icon"><i class="fas fa-dice"></i></span>
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <hr>
+                <hr style="background-color: #333;">
 
                 <!-- Seção de Armas -->
-                <h3 class="title is-5">Equipamentos</h3>
+                <h3 class="title is-5">Arsenal</h3>
                 
                 <div class="box">
                     <div class="field">
-                        <label class="label">Nova Arma</label>
+                        <label class="label">Arma / Item</label>
                         <div class="control">
-                            <input type="text" id="armanome" class="input" placeholder="Nome...">
+                            <input type="text" id="armanome" class="input" placeholder="Ex: Adaga Sombria...">
                         </div>
                     </div>
                     <div class="field">
                         <label class="label">Poder (Dano/Defesa)</label>
                         <div class="stepper-control">
-                            <button class="button is-small" id="btn-minus-arma">
+                            <button class="button is-small is-stepper" id="btn-minus-arma">
                                 <i class="fas fa-minus"></i>
                             </button>
                             <span id="armadanoout" class="stepper-value is-size-4">1</span>
-                            <button class="button is-small" id="btn-plus-arma">
+                            <button class="button is-small is-stepper" id="btn-plus-arma">
                                 <i class="fas fa-plus"></i>
                             </button>
                         </div>
                         <input id="armadano" type="hidden" value="1">
                     </div>
-                    <button id="addarma" class="button is-primary is-fullwidth">Adicionar</button>
+                    <button id="addarma" class="button is-primary is-fullwidth">
+                        <i class="fas fa-plus-circle mr-2"></i> Forjar Item
+                    </button>
                 </div>
 
                 <div class="content">
-                    <table class="table is-fullwidth table-mobile-cards">
+                    <table class="table is-fullwidth table-mobile-cards" style="background-color: transparent;">
                         <tbody id="listaarmas">
                             <!-- JS Populates this -->
                         </tbody>
@@ -389,8 +458,8 @@
     </section>
 
     <!-- FAB Save Button -->
-    <button id="salvar" class="fab-save" title="Salvar">
-        <i class="fas fa-save"></i>
+    <button id="salvar" class="fab-save" title="Gravar na Pedra (Salvar)">
+        <i class="fas fa-save fa-lg"></i>
     </button>
 
     <!-- Scripts -->
