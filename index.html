@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
@@ -8,278 +8,229 @@
     <title>RPG Manager</title>
     <link rel="icon" href="icon.png" type="image/icon type">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-extensions@4.0.0/dist/css/bulma-extensions.min.css">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
     <link rel="manifest" href="./manifest.json">
+    <style>
+        .slider-output {
+            font-weight: bold;
+            display: inline-block;
+            width: 30px;
+            text-align: right;
+        }
+        .section-header {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            border-radius: 4px;
+        }
+    </style>
 </head>
 
 <body onload="brython({debug: 1, indexedDB: false})">
     <section class="section">
         <div class="container">
-            <h1 class="title">Gerenciador de Personagem</h1>
-            <div class="columns">
-                <div class="column is-full">
-                    <div class="rows">
-                        <div class="row">
-                            <div class="columns">
-                                <div class="column has-background-grey-lighter">
-                                    <h2><b>ROLAR DADOS:</b></h2>
-                                </div>
-                            </div>
+            <h1 class="title has-text-centered is-2">Gerenciador de Personagem</h1>
+            
+            <div class="columns is-multiline">
+                
+                <!-- Coluna Esquerda: Dados Principais -->
+                <div class="column is-half">
+                    <div class="box">
+                        <div class="has-background-grey-lighter section-header">
+                            <h2 class="subtitle is-5"><b><i class="fas fa-user"></i> DADOS DO PERSONAGEM</b></h2>
                         </div>
-                        <br>
-                        <div class="row">
-                            <div class="columns">                               
-                                <div class="column">
-                                    <div class="select">
-                                        <select id='caracter'>
-                                            <option>Inteligência
-                                            <option>Força</option>
-                                            <option>Destreza</option>
-                                            <option>Carisma</option>
-                                            <option>Constituição</option>
-                                            </option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="column">
-                                    <button id="rolar" class="button is-info">
-                                    <span>Rolar</span>
-                                    <span class="icon is-small">
-                                        <i class="fas fa-dice"></i>
-                                    </span>
-                                    </button>
-                                </div>
+
+                        <div class="field is-horizontal">
+                            <div class="field-label is-normal">
+                                <label class="label">Nome</label>
                             </div>
-                        </div>
-                    </div>
-                    <br>
-                    <div class="rows">
-                        <div class="row">
-                            <div class="columns">
-                                <div class="column has-background-grey-lighter">
-                                    <h2><b>DADOS DO PERSONAGEM:</b></h2>
-                                </div>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="columns">
-                                <div class="column is-one-quarter">
-                                    <span><b>Nivel:</b></span>
-                                </div>
-                                <div class="column">
-                                    <input id="nivel" class="slider is-info has-output is-fullwidth" step="1" min="1" max="15"
-                                        value="1" type="range">
-                                    <output id="nivelout">1</output>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="columns">
-                                <div class="column is-one-quarter">
-                                    <span><b>HP:</b></span>
-                                </div>
-                                <div class="column">
-                                    <input id="hp" class="slider is-info has-output is-fullwidth" step="1" min="1" max="50"
-                                        value="1" type="range">
-                                    <output id="hpout">1</output>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="columns">
-                                <div class="column is-one-quarter">
-                                    <span><b>Nome:</b></span>
-                                </div>
-                                <div class="column">
-                                    <input type="text" name="nome" id="nome" class="input is-small"
-                                        placeholder="Nome do personagem">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="columns">
-                                <div class="column is-one-quarter">
-                                    <span><b>Raça:</b></span>
-                                </div>
-                                <div class="column">
-                                    <input type="text" name="raca" id="raca" class="input is-small"
-                                    placeholder="Raça do personagem">
+                            <div class="field-body">
+                                <div class="field">
+                                    <div class="control">
+                                        <input type="text" name="nome" id="nome" class="input" placeholder="Nome do personagem">
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="columns">
-                                <div class="column is-one-quarter">
-                                    <span><b>Descrição:</b></span>
-                                </div>
-                                <div class="column">
-                                    <textarea id="descricao" class="textarea" placeholder="Descrição do personagem"></textarea>
-                                </div>
+
+                        <div class="field is-horizontal">
+                            <div class="field-label is-normal">
+                                <label class="label">Raça</label>
                             </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="columns">
-                                <div class="column has-background-grey-lighter">
-                                    <h2><b>DISTRUIBUIÇÃO DE PONTOS:</b></h2>
-                                </div>
-                                <div class="column">
-                                    <i><span id='somapontos'></span></i>
-                                </div>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="columns">
-                                <div class="column is-one-quarter">
-                                    <span><b>Inteligência:</b></span>
-                                </div>
-                                <div class="column">
-                                    <input id="inteligencia" class="slider is-info has-output is-fullwidth" step="1" min="6"
-                                        max="15" value="8" type="range">
-                                    <output id="inteligenciaout">8</output>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="columns">
-                                <div class="column is-one-quarter">
-                                    <span><b>Força:</b></span>
-                                </div>
-                                <div class="column">
-                                    <input id="forca" class="slider is-info has-output is-fullwidth" step="1" min="6" max="15"
-                                        value="8" type="range">
-                                    <output id="forcaout">8</output>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="columns">
-                                <div class="column is-one-quarter">
-                                    <span><b>Destreza:</b></span>
-                                </div>
-                                <div class="column">
-                                    <input id="destreza" class="slider is-info has-output is-fullwidth" step="1" min="6"
-                                        max="15" value="8" type="range">
-                                    <output id="destrezaout">8</output>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="columns">
-                                <div class="column is-one-quarter">
-                                    <span><b>Carisma:</b></span>
-                                </div>
-                                <div class="column">
-                                    <input id="carisma" class="slider is-info has-output is-fullwidth" step="1" min="6" max="15"
-                                        value="8" type="range">
-                                    <output id="carismaout">8</output>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="columns">
-                                <div class="column is-one-quarter">
-                                    <span><b>Constituição:</b></span>
-                                </div>
-                                <div class="column">
-                                    <input id="constituicao" class="slider is-info has-output is-fullwidth" step="1" min="6"
-                                        max="15" value="8" type="range">
-                                    <output id="constituicaoout">8</output>
-                                </div>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="columns">
-                                <div class="column has-background-grey-lighter">
-                                    <h2><b>ARMAS/ARMADURAS:</b></h2>
-                                </div>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="columns">
-                                <div class="column">
-                                    <div class="columns">
-                                        <div class="column">
-                                            <input type="text" name="armaanome" id="armanome" class="input is-small"
-                                                placeholder="Nome da Arma">
-                                        </div>
-                                    </div>
-                                    <div class="columns">
-                                        <div class="column">
-                                            <input id="armadano" class="slider is-info has-output is-fullwidth" step="1" min="1"
-                                                max="15" value="1" type="range">
-                                            <output id="armadanoout">1</output>
-                                        </div>
+                            <div class="field-body">
+                                <div class="field">
+                                    <div class="control">
+                                        <input type="text" name="raca" id="raca" class="input" placeholder="Raça do personagem">
                                     </div>
                                 </div>
-                                <div class="column is-one-quarter">
-                                    <span class="icon is-medium">
-                                        <i id="addarma" class="fas fa-2x fa-plus-square"></i>
-                                    </span>
-                                </div>
                             </div>
                         </div>
-                        <br>
-                        <div class="row">
-                            <div class="columns">
-                                <div class="column">
-                                    <table class="table is-bordered is-fullwidth">
-                                        <thead>
-                                            <tr class="has-background-grey-lighter">
-                                                <th>Nome</th>
-                                                <th>Dano/Defesa</th>
-                                                <th></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="listaarmas">
-                                        </tbody>
-                                    </table>
-                                </div>
+
+                        <div class="field">
+                            <label class="label">Descrição</label>
+                            <div class="control">
+                                <textarea id="descricao" class="textarea" placeholder="Descrição e histórico do personagem"></textarea>
                             </div>
                         </div>
-                        <br>
-                        <hr style="height:3px;background-color:black">
-                        <br>
-                        <div class="row">
-                            <div class="columns">
-                                <div class="column is-one-quarter">
-                                </div>
-                                <div class="column">
-                                    <button id="salvar" class="button is-info">
-                                        <span>Salvar</span>
-                                        <span class="icon is-small">
-                                            <i class="fas fa-save"></i>
-                                        </span>
-                                    </button>
-                                </div>
-                                <div class="column">
-                                    <button id="deletar" class="button is-danger">
-                                        <span>Deletar</span>
-                                        <span class="icon is-small">
-                                            <i class="fas fa-skull-crossbones"></i>
-                                        </span>
-                                    </button>
-                                </div>
+
+                        <hr>
+
+                        <div class="field">
+                            <label class="label">Nível <span id="nivelout" class="tag is-info ml-2">1</span></label>
+                            <div class="control">
+                                <input id="nivel" class="slider is-fullwidth is-info" step="1" min="1" max="15" value="1" type="range">
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label">HP <span id="hpout" class="tag is-danger ml-2">50</span></label>
+                            <div class="control">
+                                <input id="hp" class="slider is-fullwidth is-danger" step="1" min="1" max="50" value="50" type="range">
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <!-- Coluna Direita: Atributos e Rolagem -->
+                <div class="column is-half">
+                    
+                    <!-- Rolagem de Dados -->
+                    <div class="box has-background-info-light">
+                        <h2 class="subtitle is-5"><b><i class="fas fa-dice-d20"></i> ROLAR TESTE</b></h2>
+                        <div class="field has-addons">
+                            <div class="control is-expanded">
+                                <div class="select is-fullwidth">
+                                    <select id='caracter'>
+                                        <option>Inteligência</option>
+                                        <option>Força</option>
+                                        <option>Destreza</option>
+                                        <option>Carisma</option>
+                                        <option>Constituição</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="control">
+                                <button id="rolar" class="button is-info">
+                                    <span class="icon">
+                                        <i class="fas fa-dice"></i>
+                                    </span>
+                                    <span>Rolar</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Distribuição de Pontos -->
+                    <div class="box">
+                        <div class="level mobile-level">
+                            <div class="level-left">
+                                <div class="level-item">
+                                    <h2 class="subtitle is-5"><b>ATRIBUTOS</b></h2>
+                                </div>
+                            </div>
+                            <div class="level-right">
+                                <div class="level-item">
+                                    <span id='somapontos' class="tag is-medium">Calculando...</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Loop de sliders de atributos -->
+                        <div class="field">
+                            <label class="label">Inteligência <span id="inteligenciaout" class="slider-output">8</span></label>
+                            <input id="inteligencia" class="slider is-fullwidth is-circle" step="1" min="6" max="15" value="8" type="range">
+                        </div>
+                        <div class="field">
+                            <label class="label">Força <span id="forcaout" class="slider-output">8</span></label>
+                            <input id="forca" class="slider is-fullwidth is-circle" step="1" min="6" max="15" value="8" type="range">
+                        </div>
+                        <div class="field">
+                            <label class="label">Destreza <span id="destrezaout" class="slider-output">8</span></label>
+                            <input id="destreza" class="slider is-fullwidth is-circle" step="1" min="6" max="15" value="8" type="range">
+                        </div>
+                        <div class="field">
+                            <label class="label">Carisma <span id="carismaout" class="slider-output">8</span></label>
+                            <input id="carisma" class="slider is-fullwidth is-circle" step="1" min="6" max="15" value="8" type="range">
+                        </div>
+                        <div class="field">
+                            <label class="label">Constituição <span id="constituicaoout" class="slider-output">8</span></label>
+                            <input id="constituicao" class="slider is-fullwidth is-circle" step="1" min="6" max="15" value="8" type="range">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Seção Inferior: Armas -->
+                <div class="column is-full">
+                    <div class="box">
+                        <div class="has-background-grey-lighter section-header">
+                            <h2 class="subtitle is-5"><b><i class="fas fa-fist-raised"></i> ARMAS E EQUIPAMENTOS</b></h2>
+                        </div>
+                        
+                        <div class="columns is-vcentered">
+                            <div class="column is-5">
+                                <div class="field">
+                                    <label class="label">Nome da Arma</label>
+                                    <div class="control">
+                                        <input type="text" id="armanome" class="input" placeholder="Ex: Espada Longa">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column is-5">
+                                <div class="field">
+                                    <label class="label">Dano/Defesa: <span id="armadanoout">1</span></label>
+                                    <div class="control">
+                                        <input id="armadano" class="slider is-fullwidth is-danger" step="1" min="1" max="15" value="1" type="range">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column is-2">
+                                <label class="label">&nbsp;</label>
+                                <button id="addarma" class="button is-primary is-fullwidth">
+                                    <span class="icon"><i class="fas fa-plus"></i></span>
+                                    <span>Adicionar</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <table class="table is-striped is-hoverable is-fullwidth">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Poder (Dano/Defesa)</th>
+                                    <th style="width: 100px;">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="listaarmas">
+                                <!-- Preenchido via Python -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Botões de Ação -->
+                <div class="column is-full">
+                    <div class="buttons is-right">
+                        <button id="deletar" class="button is-danger is-outlined">
+                            <span class="icon"><i class="fas fa-trash-alt"></i></span>
+                            <span>Apagar Personagem</span>
+                        </button>
+                        <button id="salvar" class="button is-success is-large">
+                            <span class="icon"><i class="fas fa-save"></i></span>
+                            <span>Salvar Ficha</span>
+                        </button>
+                    </div>
+                </div>
+
             </div>
         </div>
-        </div>
     </section>
+
+    <!-- Scripts -->
+    <script type="text/python">
+        import functions
+    </script>
+    <script src="brython.js"></script>
+    <script src="brython_stdlib.js"></script>
 </body>
-<script type="text/python">
-import functions
-</script>
-<script src="brython.js"></script>
-<script src="brython_stdlib.js"></script>
 
 </html>
