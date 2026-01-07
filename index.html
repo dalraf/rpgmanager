@@ -22,56 +22,65 @@
     <link rel="manifest" href="./manifest.json">
     <style>
         :root {
-            --bg-color: #121212;
-            --card-bg: #1e1e1e;
-            --text-main: #e0e0e0;
-            --text-muted: #a0a0a0;
-            --gold-accent: #ffb74d; /* Dourado RPG */
-            --gold-dark: #c88719;
-            --danger-rpg: #cf6679;
+            --bg-color: #0f0f0f;
+            --card-bg: #1a1a1a;
+            --text-main: #ffffff; /* Branco puro para máximo contraste */
+            --text-muted: #d1d1d1; /* Cinza claro, muito mais legível */
+            --gold-accent: #d4af37; /* Ouro Metálico (menos laranja/neon) */
+            --gold-dark: #8a7018;
+            --danger-rpg: #e57373;
             --success-rpg: #81c784;
-            --input-bg: #2d2d2d;
-            --border-color: #333;
+            --input-bg: #242424;
+            --border-color: #404040;
         }
 
         body {
             background-color: var(--bg-color);
+            background-image: radial-gradient(circle at center, #1a1a1a 0%, #0f0f0f 100%); /* Fundo fluido */
             color: var(--text-main);
             font-family: 'Lato', sans-serif;
-            padding-bottom: 80px;
+            padding-bottom: 90px;
             overscroll-behavior-y: none;
         }
 
-        /* Tipografia RPG */
+        /* Tipografia RPG Melhorada */
         h1, h2, h3, .title, .subtitle, .label-rpg {
             font-family: 'MedievalSharp', cursive;
             color: var(--gold-accent) !important;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5); /* Sombra para destacar do fundo */
             letter-spacing: 0.5px;
         }
 
-        /* Overrides Bulma Dark Mode */
+        /* Cards mais fluidos */
         .box, .card, .modal-card-body {
-            background-color: var(--card-bg);
+            background: linear-gradient(160deg, #252525 0%, #1a1a1a 100%);
             color: var(--text-main);
-            border: 1px solid var(--border-color);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255, 255, 255, 0.08); /* Borda sutil */
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
         }
 
+        /* Rótulos (Labels) com alto contraste */
         .label {
             color: var(--text-muted);
+            font-weight: 600; /* Mais espesso */
+            font-size: 1rem;
+            margin-bottom: 0.4em;
         }
 
+        /* Inputs mais integrados e legíveis */
         .input, .textarea, .select select {
-            background-color: var(--input-bg);
-            border-color: var(--border-color);
-            color: var(--text-main);
+            background-color: rgba(0, 0, 0, 0.3); /* Semi-transparente */
+            border: 1px solid var(--border-color);
+            color: #fff;
+            font-size: 1.1rem; /* Texto maior */
         }
         .input:focus, .textarea:focus, .select select:focus {
             border-color: var(--gold-accent);
-            box-shadow: 0 0 0 0.125em rgba(255, 183, 77, 0.25);
+            background-color: rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 8px rgba(212, 175, 55, 0.1); /* Glow suave */
         }
         .input::placeholder, .textarea::placeholder {
-            color: #555;
+            color: #666;
         }
 
         /* Sticky Header */
